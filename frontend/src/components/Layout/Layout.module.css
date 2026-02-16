@@ -1,0 +1,74 @@
+.layout {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+
+  width: 100%;
+  min-height: 100vh;
+}
+
+.sidebar {
+  overflow-y: auto;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: clamp(16px, 4vw, 32px);
+
+  width: clamp(250px, 25vw, 300px);
+  max-height: 100vh;
+  padding: clamp(16px, 3vw, 24px);
+  border-right: 1px solid black;
+}
+
+.main {
+  overflow-y: auto;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: clamp(16px, 3vw, 24px);
+
+  width: 100%;
+  max-width: 800px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 48px);
+  padding-top: clamp(32px, 5vw, 48px);
+}
+
+/* Планшеты (768px и меньше) */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    gap: clamp(12px, 2vw, 16px);
+
+    width: 100%;
+    max-height: auto;
+    padding: clamp(12px, 3vw, 16px);
+    border-right: none;
+    border-bottom: 1px solid black;
+  }
+
+  .main {
+    max-width: 100%;
+    padding: clamp(16px, 3vw, 24px);
+    padding-top: clamp(16px, 3vw, 24px);
+  }
+}
+
+/* Мобильные устройства (480px и меньше) */
+@media (max-width: 480px) {
+  .sidebar {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .main {
+    gap: 12px;
+    padding: 12px;
+    padding-top: 12px;
+  }
+}

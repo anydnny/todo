@@ -1,0 +1,120 @@
+/* src/styles/global.css */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-black--primary: #000;
+  --color-grey--primary: #333;
+  --color-grey--muted: #3339;
+  --bg-color-grey--hover: #f0f0f0;
+  --bg-color-grey--accent: #3333331a;
+  --default-font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
+
+  /* Адаптивные размеры */
+  --spacing-xs: clamp(4px, 1vw, 8px);
+  --spacing-sm: clamp(8px, 2vw, 12px);
+  --spacing-md: clamp(12px, 3vw, 16px);
+  --spacing-lg: clamp(16px, 4vw, 24px);
+  --spacing-xl: clamp(24px, 6vw, 32px);
+  --spacing-2xl: clamp(32px, 8vw, 48px);
+
+  /* Адаптивные размеры шрифта */
+  --font-size-xs: clamp(11px, 2vw, 12px);
+  --font-size-sm: clamp(12px, 2.5vw, 14px);
+  --font-size-base: clamp(14px, 3vw, 16px);
+  --font-size-lg: clamp(16px, 3.5vw, 18px);
+  --font-size-xl: clamp(20px, 5vw, 24px);
+  --font-size-2xl: clamp(24px, 6vw, 30px);
+}
+
+html {
+  font-family: var(--default-font-family);
+  font-size: clamp(14px, 2vw, 16px);
+  font-style: normal;
+  line-height: 1.5;
+  color: var(--color-black--primary);
+  text-decoration: none;
+  text-transform: none;
+
+  background: #fff;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Общие свойства для DM Sans */
+
+/* Размеры и веса */
+.text-xs {
+  font-size: var(--font-size-xs);
+  line-height: 16px;
+}
+
+.text-sm {
+  font-size: var(--font-size-sm);
+  line-height: 20px;
+}
+
+.text-base {
+  font-size: var(--font-size-base);
+  line-height: 24px;
+}
+
+.text-lg {
+  font-size: var(--font-size-lg);
+  line-height: 28px;
+}
+
+.text-xl {
+  font-size: var(--font-size-xl);
+  line-height: 32px;
+  letter-spacing: -0.6px;
+}
+
+.text-2xl {
+  font-size: var(--font-size-2xl);
+  line-height: 36px;
+  letter-spacing: -0.75px;
+}
+
+.font-light {
+  font-weight: 300;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+/* Остальные */
+a {
+  font-family: Roboto, sans-serif;
+  font-size: clamp(12px, 2.2vw, 13.7px);
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: 0.28px;
+}
+
+/* Медиа-запросы для улучшения читаемости на мобильных */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+
+  .text-2xl {
+    letter-spacing: -0.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+}

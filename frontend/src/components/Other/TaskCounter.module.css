@@ -1,0 +1,16 @@
+.counter {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  aspect-ratio: 1.05;
+  min-width: clamp(20px, 5vw, 32px);
+  padding-inline: clamp(2px, 1vw, 4px);
+  border-radius: 50%;
+
+  font-size: clamp(12px, 2vw, 14px);
+  font-weight: normal;
+
+  background-color: var(--bg-color-grey--accent);
+}

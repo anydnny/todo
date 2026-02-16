@@ -1,0 +1,69 @@
+.taskItem {
+  display: flex;
+  gap: clamp(8px, 2vw, 16px);
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  padding: clamp(12px, 3vw, 20px);
+  border: 1px solid black;
+
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+
+.taskItem:hover {
+  transform: translateY(-2px);
+  box-shadow: clamp(3px, 1vw, 8px) clamp(3px, 1vw, 8px) black;
+}
+
+.taskItem p {
+  flex: 1;
+  justify-self: flex-start;
+
+  font-size: clamp(14px, 2vw, 16px);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.toolbox {
+  position: relative;
+  bottom: clamp(2px, 0.5vw, 6px);
+  left: clamp(2px, 0.5vw, 6px);
+
+  display: flex;
+  flex-shrink: 0;
+  gap: clamp(8px, 2vw, 12px);
+}
+
+.taskItem:has(input[type='checkbox']:hover) {
+  box-shadow: clamp(3px, 1vw, 8px) clamp(3px, 1vw, 8px) rgb(0, 168, 0);
+}
+
+.taskItem:has(button:hover) {
+  box-shadow: clamp(3px, 1vw, 8px) clamp(3px, 1vw, 8px) rgb(191, 0, 0);
+}
+
+@media (max-width: 768px) {
+  .taskItem {
+    flex-direction: row;
+    gap: clamp(8px, 3vw, 12px);
+    align-items: flex-start;
+  }
+
+  .toolbox {
+    /*width: 100%;*/
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .taskItem {
+    padding: clamp(10px, 2vw, 14px);
+  }
+
+  .taskItem p {
+    font-size: clamp(13px, 1.5vw, 14px);
+  }
+}

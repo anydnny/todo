@@ -1,0 +1,25 @@
+.noTaskMessage {
+  align-self: center;
+
+  margin-top: clamp(2rem, 10vh, 4rem);
+  padding: clamp(1rem, 5vw, 2rem);
+
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: var(--color-grey--primary);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .noTaskMessage {
+    margin-top: clamp(1.5rem, 8vh, 3rem);
+    padding: clamp(0.75rem, 4vw, 1.5rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .noTaskMessage {
+    margin-top: clamp(1rem, 5vh, 2rem);
+    padding: clamp(0.5rem, 3vw, 1rem);
+    font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+  }
+}

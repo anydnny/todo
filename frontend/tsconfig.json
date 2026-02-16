@@ -1,0 +1,15 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "jsx": "react-jsx",
+    "isolatedModules": true,
+    "allowJs": true,
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
+  }
+}
