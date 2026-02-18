@@ -1,5 +1,5 @@
 import { useAppDispatch } from '../../hooks/useRedux';
-import { completeTask } from '../../store/slices/TaskSlice';
+import { toggleStatus } from '../../store/slices/TaskSlice';
 import style from './CompleteButton.module.css';
 import clsx from 'clsx';
 
@@ -16,7 +16,7 @@ export const CompleteButton: React.FC<Props> = ({ taskId, checked }) => {
       <input
         type="checkbox"
         className={clsx(style['visually-hidden'])}
-        onChange={() => dispatch(completeTask(taskId))}
+        onChange={() => dispatch(toggleStatus(taskId))}
         checked={checked || false}
       />
       {checked ? (

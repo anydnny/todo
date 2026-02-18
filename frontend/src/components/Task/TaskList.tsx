@@ -1,9 +1,10 @@
 import { TaskItem } from './TaskItem';
-import { useAppSelector } from '../../hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { NoTaskMessage } from './NoTaskMessage';
 import style from './TaskList.module.css';
-import { TASK_STATUS } from '../../utils/taskTypes';
 import clsx from 'clsx';
+import { useEffect } from 'react';
+import { getAll } from '../../store/slices/TaskSlice';
 
 interface TaskListProps {
   type: 'new' | 'completed';
@@ -11,15 +12,21 @@ interface TaskListProps {
 }
 
 export const TaskList: React.FC<TaskListProps> = ({ type, title }) => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getAll());
+  }, [dispatch]);
+
   const currentProject = useAppSelector(state => state.ui.currentProjectId);
   const taskList = useAppSelector(state =>
     state.task.taskList.filter(item => item.projectId === currentProject)
   );
   const filteredTaskList = taskList.filter(item => {
     if (type === 'new') {
-      return item.status === TASK_STATUS.NEW;
+      return item.status === 'new';
     } else {
-      return item.status === TASK_STATUS.COMPLETE;
+      return item.status === 'complete';
     }
   });
 

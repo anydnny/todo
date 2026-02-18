@@ -23,10 +23,14 @@ export class TasksService {
     return this.taskRepository.save(task);
   }
 
-  async toggleStatus(id: string, status: string): Promise<Task> {
+  async toggleStatus(id: string): Promise<Task> {
+    let newStatus = 'complete';
     const task = await this.taskRepository.findOne({ where: { id } });
     if (!task) throw new NotFoundException('Task not found');
-    task.status = status;
+    if (task.status === 'complete') {
+      newStatus = 'new';
+    }
+    task.status = newStatus;
     return this.taskRepository.save(task);
   }
 

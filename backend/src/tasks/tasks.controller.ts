@@ -24,11 +24,11 @@ export class TasksController {
   }
 
   @Patch(':id/status')
-  toggleStatus(@Param('id') id: string, @Body('status') status: string) {
-    return this.tasksService.toggleStatus(id, status);
+  toggleStatus(@Param('id') id: string) {
+    return this.tasksService.toggleStatus(id);
   }
 
-  @Delete(':id')
+  @Delete('/:id/delete')
   remove(@Param('id') id: string) {
     return this.tasksService.deleteTask(id);
   }

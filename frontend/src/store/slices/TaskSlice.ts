@@ -1,51 +1,54 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
-import {
-  TASK_STATUS,
-  type TaskInitialState,
-  type TaskType,
-} from '../../utils/taskTypes';
+import { type TaskInitialState, type TaskType } from '../../utils/taskTypes';
 import { PROJECT_IDS } from '../../utils/projectTypes';
+import { tasksApi } from '../../api/tasksApi';
+
 const initialState: TaskInitialState = {
   taskList: [],
+  loading: false,
+  error: null,
 };
 interface TaskFormData {
   title: string;
   projectId: string;
 }
+
+export const getAll = createAsyncThunk<TaskType[]>('tasks/getAll', async () => {
+  const tasks = await tasksApi.getAllTasks();
+  return tasks;
+});
+
+export const createTask = createAsyncThunk(
+  'tasks/create',
+  async (taskInfo: TaskFormData) => {
+    const task = await tasksApi.createTask(taskInfo);
+    return task;
+  }
+);
+export const deleteById = createAsyncThunk<string, string>(
+  'tasks/deleteById',
+  async (taskId: string) => {
+    const id = await tasksApi.deleteTaskById(taskId);
+    return id;
+  }
+);
+export const toggleStatus = createAsyncThunk<string, string>(
+  'tasks/toggle',
+  async (taskId: string) => {
+    const id = await tasksApi.toggleStatus(taskId);
+    return id;
+  }
+);
 const taskSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    addTask: (state, action: PayloadAction<TaskFormData>) => {
-      const createdTask: TaskType = {
-        id: uuidv4(),
-        title: action.payload.title,
-        status: TASK_STATUS.NEW,
-        createdAt: new Date().toISOString(),
-        projectId: action.payload.projectId || PROJECT_IDS.NO_PROJECT,
-        isTaskEdit: false,
-      };
-
-      state.taskList.push(createdTask);
-    },
-    deleteTask: (state, action: PayloadAction<string>) => {
-      state.taskList = state.taskList.filter(
-        task => task.id !== action.payload
-      );
-    },
-    completeTask: (state, action: PayloadAction<string>) => {
-      function changeStatus(item: TaskType): TaskType {
-        if (item.status === TASK_STATUS.COMPLETE) {
-          return { ...item, status: TASK_STATUS.NEW };
-        }
-        return { ...item, status: TASK_STATUS.COMPLETE };
-      }
-      state.taskList = state.taskList.map(task =>
-        task.id === action.payload ? changeStatus(task) : task
-      );
-    },
     changeProject: (
       state,
       action: PayloadAction<{ taskId: string; projectId: string }>
@@ -64,13 +67,77 @@ const taskSlice = createSlice({
       );
     },
   },
+  extraReducers: builder => {
+    builder
+      .addCase(createTask.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createTask.fulfilled, (state, action) => {
+        state.loading = false;
+        const createdTask: TaskType = {
+          id: uuidv4(),
+          title: action.payload.title,
+          status: 'new',
+          createdAt: new Date().toISOString(),
+          projectId: action.payload.projectId || PROJECT_IDS.NO_PROJECT,
+          isTaskEdit: false,
+        };
+
+        state.taskList.push(createdTask);
+      })
+      .addCase(createTask.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to create tasks';
+      })
+      .addCase(getAll.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAll.fulfilled, (state, action) => {
+        state.loading = false;
+        state.taskList = action.payload;
+      })
+      .addCase(getAll.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to load tasks';
+      })
+      .addCase(deleteById.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.taskList = state.taskList.filter(
+          task => task.id !== action.payload
+        );
+      })
+      .addCase(deleteById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to delete tasks';
+      })
+      .addCase(toggleStatus.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(toggleStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        function changeStatus(item: TaskType): TaskType {
+          if (item.status === 'complete') {
+            return { ...item, status: 'new' };
+          }
+          return { ...item, status: 'complete' };
+        }
+        state.taskList = state.taskList.map(task =>
+          task.id === action.payload ? changeStatus(task) : task
+        );
+      })
+      .addCase(toggleStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to change status';
+      });
+  },
 });
 
-export const {
-  addTask,
-  deleteTask,
-  completeTask,
-  changeProject,
-  toggleTaskEdit,
-} = taskSlice.actions;
+export const { changeProject, toggleTaskEdit } = taskSlice.actions;
 export const reducer = taskSlice.reducer;

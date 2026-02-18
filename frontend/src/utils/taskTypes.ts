@@ -1,7 +1,7 @@
 export type TaskType = {
   id: string;
   title: string;
-  status: TASK_STATUS;
+  status: 'complete' | 'new';
   createdAt: string;
   projectId: string;
   isTaskEdit: boolean;
@@ -13,6 +13,8 @@ export type TaskTypeProps = {
 
 export type TaskInitialState = {
   taskList: TaskType[];
+  loading?: boolean;
+  error?: string | null;
 };
 export type TaskContextType = {
   taskList: TaskType[];
@@ -20,9 +22,3 @@ export type TaskContextType = {
   completeTask: (taskId: string) => void;
   deleteTask: (taskId: string) => void;
 };
-
-export enum TASK_STATUS {
-  COMPLETE = 'complete',
-  DELETED = 'deleted',
-  NEW = 'new',
-}

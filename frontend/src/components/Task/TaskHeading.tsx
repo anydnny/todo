@@ -1,5 +1,4 @@
 import { useAppSelector } from '../../hooks/useRedux';
-import { TASK_STATUS } from '../../utils/taskTypes';
 
 export const TaskHeading = () => {
   const currentProjectId = useAppSelector(state => state.ui.currentProjectId);
@@ -9,8 +8,7 @@ export const TaskHeading = () => {
   const taskCount = useAppSelector(
     state =>
       state.task.taskList.filter(
-        task =>
-          task.projectId === currentProjectId && task.status === TASK_STATUS.NEW
+        task => task.projectId === currentProjectId && task.status === 'new'
       ).length
   );
   return (

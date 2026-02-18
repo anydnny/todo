@@ -1,5 +1,5 @@
 import React, { useState, type ChangeEvent, type FormEvent } from 'react';
-import { addTask } from '../../store/slices/TaskSlice';
+import { createTask } from '../../store/slices/TaskSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import style from './TaskForm.module.css';
 import clsx from 'clsx';
@@ -22,6 +22,7 @@ export const TaskForm: React.FC = () => {
   }
 
   const currentProject = useAppSelector(state => state.ui.currentProjectId);
+
   async function handleTaskCreate(
     e: FormEvent<HTMLFormElement>
   ): Promise<void> {
@@ -35,7 +36,7 @@ export const TaskForm: React.FC = () => {
           title: formValue.title.trim(),
           projectId: taskProject.id,
         });
-        dispatch(addTask(newTask));
+        dispatch(createTask(newTask));
         setFormValue({ ...formValue, title: '' });
       } catch (error) {
         console.error('Error creating', error);
