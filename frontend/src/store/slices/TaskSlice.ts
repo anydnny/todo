@@ -3,10 +3,8 @@ import {
   createSlice,
   type PayloadAction,
 } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
 
 import { type TaskInitialState, type TaskType } from '../../utils/taskTypes';
-import { PROJECT_IDS } from '../../utils/projectTypes';
 import { tasksApi } from '../../api/tasksApi';
 
 const initialState: TaskInitialState = {
@@ -75,16 +73,8 @@ const taskSlice = createSlice({
       })
       .addCase(createTask.fulfilled, (state, action) => {
         state.loading = false;
-        const createdTask: TaskType = {
-          id: uuidv4(),
-          title: action.payload.title,
-          status: 'new',
-          createdAt: new Date().toISOString(),
-          projectId: action.payload.projectId || PROJECT_IDS.NO_PROJECT,
-          isTaskEdit: false,
-        };
 
-        state.taskList.push(createdTask);
+        state.taskList.push(action.payload);
       })
       .addCase(createTask.rejected, (state, action) => {
         state.loading = false;

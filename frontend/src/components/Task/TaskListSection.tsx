@@ -21,8 +21,8 @@ export const TaskListSection: React.FC<TaskListSectionProps> = ({
       {taskList.length > 0 && (
         <ul className={style.taskList}>
           {taskList.map((taskInfo, index) => (
-            <li>
-              <TaskItem key={index} taskInfo={taskInfo} />
+            <li key={index}>
+              <TaskItem taskInfo={taskInfo} />
             </li>
           ))}
         </ul>
