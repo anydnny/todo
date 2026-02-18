@@ -26,8 +26,7 @@ function App() {
       <LayoutMain>
         <TaskHeading />
         <TaskForm />
-        <TaskList type="new" title="active" />
-        <TaskList type="completed" title="archive" />
+        <TaskList />
       </LayoutMain>
     </Layout>
   );
