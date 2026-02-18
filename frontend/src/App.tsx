@@ -6,18 +6,16 @@ import { TaskHeading } from './components/Task/TaskHeading';
 import { TaskList } from './components/Task/TaskList';
 import { LayoutMain } from './components/Layout/LayoutMain';
 import { useEffect } from 'react';
-import { tasksApi } from './api/tasksApi';
+import { useAppDispatch } from './hooks/useRedux';
+import { getAll } from './store/slices/TaskSlice';
 
 function App() {
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    const loadTasks = async () => {
-      try {
-        await tasksApi.getAllTasks();
-      } catch (error) {
-        console.error('Ошибка при получении задач', error);
-      }
-    };
-  });
+    dispatch(getAll());
+  }, [dispatch]);
+
   return (
     <Layout>
       <LayoutAside>
