@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TasksService } from './tasks/tasks.service';
 import { ConfigModule } from '@nestjs/config';
-import { dbConfig } from './config/db.config';
+import { dbConfig } from './config';
 import { IDbConfigType } from './config/config.types';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -18,8 +18,9 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
         autoLoadEntities: true,
       }),
     }),
+    TasksModule,
   ],
   controllers: [AppController],
-  providers: [AppService, TasksService],
+  providers: [AppService],
 })
 export class AppModule {}

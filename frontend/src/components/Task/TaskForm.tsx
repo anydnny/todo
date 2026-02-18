@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import style from './TaskForm.module.css';
 import clsx from 'clsx';
 import { Dropdown } from '../Other/Popup';
-import type { taskProjectSelect } from '../../utils/uiTypes';
+import { tasksApi } from '../../api/tasksApi';
 
 interface TaskFormData {
   title: string;
@@ -22,19 +22,24 @@ export const TaskForm: React.FC = () => {
   }
 
   const currentProject = useAppSelector(state => state.ui.currentProjectId);
-  function handleTaskCreate(e: FormEvent<HTMLFormElement>): void {
+  async function handleTaskCreate(
+    e: FormEvent<HTMLFormElement>
+  ): Promise<void> {
     e.preventDefault();
 
     if (formValue.title.trim() === '') {
       throw new Error('Task title cannot be empty');
     } else {
-      dispatch(
-        addTask({
+      try {
+        const newTask = await tasksApi.createTask({
           title: formValue.title.trim(),
           projectId: taskProject.id,
-        })
-      );
-      setFormValue({ ...formValue, title: '' });
+        });
+        dispatch(addTask(newTask));
+        setFormValue({ ...formValue, title: '' });
+      } catch (error) {
+        console.error('Error creating', error);
+      }
     }
   }
 
