@@ -2,19 +2,22 @@ import { useAppSelector } from '../../hooks/useRedux';
 
 export const TaskHeading = () => {
   const currentProjectId = useAppSelector(state => state.ui.currentProjectId);
+
   const project = useAppSelector(state =>
-    state.project.projectList.find(project => project.id === currentProjectId)
+    state.project.projectList.find(p => p.id === currentProjectId)
   );
-  const taskCount = useAppSelector(
+
+  const tasksCount = useAppSelector(
     state =>
       state.task.taskList.filter(
-        task => task.projectId === currentProjectId && task.status === 'new'
+        t => t.projectId === currentProjectId && t.status === 'new'
       ).length
   );
+
   return (
     <header className="taskHeader">
       <h2 className="taskHeader__title">{project?.name}</h2>
-      <p className="taskHeader__subtitle">{taskCount} active tasks</p>
+      <p className="taskHeader__subtitle">{tasksCount} active tasks</p>
     </header>
   );
 };

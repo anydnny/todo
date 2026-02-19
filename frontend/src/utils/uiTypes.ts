@@ -3,6 +3,6 @@ export interface taskProjectSelect {
   title: string;
 }
 export type UiInitialState = {
-  currentProjectId: string | null;
+  currentProjectId: string;
   createTaskProjectSelect: taskProjectSelect;
 };
