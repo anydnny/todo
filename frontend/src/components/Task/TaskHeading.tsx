@@ -1,6 +1,12 @@
-import { useAppSelector } from '../../hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { DeleteButton } from '../Other/DeleteButton';
+import { deleteProject } from '../../store/slices/ProjectSlice';
+import { setUiProperty } from '../../store/slices/UiSlice';
+import style from './TaskHeading.module.css';
 
 export const TaskHeading = () => {
+  const dispatch = useAppDispatch();
+
   const currentProjectId = useAppSelector(state => state.ui.currentProjectId);
 
   const project = useAppSelector(state =>
@@ -14,10 +20,19 @@ export const TaskHeading = () => {
       ).length
   );
 
+  const deleteProjectFn = (projectId: string) => {
+    dispatch(deleteProject(projectId));
+    dispatch(setUiProperty('d406e045-29e0-4ae3-a8b9-aed2622cb328'));
+  };
   return (
-    <header className="taskHeader">
-      <h2 className="taskHeader__title">{project?.name}</h2>
-      <p className="taskHeader__subtitle">{tasksCount} active tasks</p>
+    <header>
+      <h2 className={style.taskHeader__title}>{project?.name}</h2>
+      <div className={style.taskHeader__footer}>
+        <p>{tasksCount} active tasks</p>
+        {project?.projectListType === 'custom' && (
+          <DeleteButton deleteFn={() => deleteProjectFn(currentProjectId)} />
+        )}
+      </div>
     </header>
   );
 };

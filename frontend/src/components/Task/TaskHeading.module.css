@@ -1,0 +1,7 @@
+.taskHeader__title {
+  text-transform: capitalize;
+}
+.taskHeader__footer {
+  display: flex;
+  justify-content: space-between;
+}

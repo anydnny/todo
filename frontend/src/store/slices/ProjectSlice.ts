@@ -3,11 +3,10 @@ import {
   createSlice,
   type PayloadAction,
 } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
+
 import {
   type ProjectInitialState,
   type Project,
-  PROJECT_TYPE,
   type ProjectCreate,
 } from '../../utils/projectTypes';
 import { projectsApi } from '../../api/projectsApi';
@@ -34,21 +33,18 @@ export const createProject = createAsyncThunk(
   }
 );
 
+export const deleteProject = createAsyncThunk<string, string>(
+  'projects/delete',
+  async (projectId: string) => {
+    await projectsApi.deleteProject(projectId);
+    return projectId;
+  }
+);
 const projectSlice = createSlice({
   name: 'projects',
   initialState,
   reducers: {
-    addProject: (state, action: PayloadAction<string>) => {
-      const createdProject: Project = {
-        id: uuidv4(),
-        name: action.payload,
-        createdAt: new Date().toISOString(),
-        projectListType: PROJECT_TYPE.CUSTOM,
-      };
-
-      state.projectList.push(createdProject);
-    },
-    deleteProject: (state, action: PayloadAction<string>) => {
+    removeProject: (state, action: PayloadAction<string>) => {
       state.projectList = state.projectList.filter(
         project => project.id !== action.payload
       );
@@ -89,10 +85,23 @@ const projectSlice = createSlice({
       .addCase(createProject.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to create projects';
+      })
+      .addCase(deleteProject.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteProject.fulfilled, (state, action) => {
+        state.loading = false;
+        state.projectList = state.projectList.filter(
+          project => project.id !== action.payload
+        );
+      })
+      .addCase(deleteProject.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to delete project';
       });
   },
 });
 
-export const { addProject, deleteProject, changeProjectName } =
-  projectSlice.actions;
+export const { changeProjectName } = projectSlice.actions;
 export const reducer = projectSlice.reducer;
