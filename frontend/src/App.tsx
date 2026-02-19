@@ -7,13 +7,15 @@ import { TaskList } from './components/Task/TaskList';
 import { LayoutMain } from './components/Layout/LayoutMain';
 import { useEffect } from 'react';
 import { useAppDispatch } from './hooks/useRedux';
-import { getAll } from './store/slices/TaskSlice';
+import { getAll as getAllTasks } from './store/slices/TaskSlice';
+import { getAll as getAllProjects } from './store/slices/ProjectSlice';
 
 function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getAll());
+    dispatch(getAllTasks());
+    dispatch(getAllProjects());
   }, [dispatch]);
 
   return (

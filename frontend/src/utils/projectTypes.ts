@@ -10,8 +10,13 @@ export type Project = {
 export type ProjectInitialState = {
   projectList: Project[];
   taskInfo?: TaskType;
+  loading?: boolean;
+  error?: string | null;
 };
 
+export type ProjectCreate = {
+  name: string;
+};
 export type ProjectListProps = {
   projectListType: PROJECT_TYPE;
 };

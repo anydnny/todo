@@ -3,7 +3,7 @@ import style from './ProjectForm.module.css';
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { useAppDispatch } from '../../hooks/useRedux';
 
-import { addProject } from '../../store/slices/ProjectSlice';
+import { createProject } from '../../store/slices/ProjectSlice';
 
 export const ProjectForm: React.FC = () => {
   const [formValue, setFormValue] = useState('');
@@ -15,10 +15,11 @@ export const ProjectForm: React.FC = () => {
 
   function handleProjectCreate(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
+    const newProject = { name: formValue.trim() };
     if (formValue.trim() === '') {
       throw new Error('Task title cannot be empty');
     } else {
-      dispatch(addProject(formValue.trim()));
+      dispatch(createProject(newProject));
       setFormValue('');
     }
   }
