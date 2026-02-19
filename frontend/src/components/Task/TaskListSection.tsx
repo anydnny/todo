@@ -3,6 +3,7 @@ import { NoTaskMessage } from './NoTaskMessage';
 import style from './TaskListSection.module.css';
 import clsx from 'clsx';
 import type { TaskType } from '../../utils/taskTypes';
+
 interface TaskListSectionProps {
   title: 'active' | 'archive';
   taskList: TaskType[];

@@ -15,7 +15,7 @@ const initialState: ProjectInitialState = {
       projectListType: PROJECT_TYPE.SYSTEM,
     },
     {
-      id: uuidv4(),
+      id: 'custom',
       name: 'Делишки',
       createdAt: new Date().toISOString(),
       projectListType: PROJECT_TYPE.CUSTOM,
