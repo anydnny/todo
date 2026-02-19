@@ -1,5 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Project } from '../../projects/entities/project.entity';
 @Entity('tasks')
 export class Task {
   @PrimaryGeneratedColumn('uuid')
@@ -18,9 +24,15 @@ export class Task {
   })
   createdAt: Date;
 
-  @Column({ name: 'project_id', type: 'varchar', length: 255 })
-  projectId: string;
-
   @Column({ name: 'is_task_edit', type: 'boolean', default: false })
   isTaskEdit: boolean;
+
+  @Column()
+  projectId: string;
+
+  @ManyToOne(() => Project, (project) => project.tasks, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'projectId' })
+  project: Project;
 }

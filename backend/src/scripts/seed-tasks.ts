@@ -1,6 +1,7 @@
 import { AppDataSource } from '../config';
 import { tasksSeedData } from './seed-tasks-data';
 import { Task } from '../tasks/entities/tasks.entity';
+import { Project } from '../projects/entities/project.entity';
 import { Repository } from 'typeorm';
 
 async function tasksSeed() {
@@ -10,6 +11,18 @@ async function tasksSeed() {
     database: process.env.DB_NAME,
   });
   await AppDataSource.initialize();
+  const projectsRepo: Repository<Project> =
+    AppDataSource.getRepository(Project);
+  const projects = await projectsRepo.find({ select: ['id'] });
+  if (projects.length === 0) {
+    console.error('❌ Нет проектов, запустите сидинг проектов');
+    await AppDataSource.destroy();
+    return;
+  }
+  const projectsIds = projects.map((item) => item.id);
+  function getRandomProjectId(projectsIds: string[]): string {
+    return projectsIds[Math.floor(Math.random() * projectsIds.length)];
+  }
   const tasksRepo: Repository<Task> = AppDataSource.getRepository(Task);
 
   const tasks = await tasksRepo.find({});
@@ -19,7 +32,10 @@ async function tasksSeed() {
     return;
   }
   for (const task of tasksSeedData) {
-    await tasksRepo.save({ ...task });
+    await tasksRepo.save({
+      ...task,
+      projectId: getRandomProjectId(projectsIds),
+    });
   }
   console.log('✅ Сид успешен!');
   await AppDataSource.destroy();

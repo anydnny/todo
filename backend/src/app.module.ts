@@ -7,6 +7,7 @@ import { dbConfig } from './config';
 import { IDbConfigType } from './config/config.types';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { TasksModule } from './tasks/tasks.module';
+import { ProjectsModule } from './projects/projects.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TasksModule } from './tasks/tasks.module';
       }),
     }),
     TasksModule,
+    ProjectsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
