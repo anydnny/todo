@@ -23,11 +23,21 @@ async function request<TResponse, TBody = undefined>(
     throw new Error(errMessage ?? `Ошибка запроса: ${method} ${endpoint}`);
   }
 
-  if (response.status === 204) {
+  if (response.status === 204 || response.status === 205) {
     return undefined as TResponse;
   }
 
-  return (await response.json()) as TResponse;
+  const rawBody = await response.text();
+  if (!rawBody.trim()) {
+    return undefined as TResponse;
+  }
+
+  const contentType = response.headers.get('content-type') ?? '';
+  if (!contentType.includes('application/json')) {
+    return undefined as TResponse;
+  }
+
+  return JSON.parse(rawBody) as TResponse;
 }
 
 export const clientApi = {
