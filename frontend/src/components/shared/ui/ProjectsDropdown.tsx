@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
-import style from './Popup.module.css';
-import useClickOutside from '../../hooks/useClickOutside';
-import { useAppSelector } from '../../hooks/useRedux';
-import { useAppDispatch } from '../../hooks/useRedux';
-import { setUiTaskProjectSelect } from '../../store/slices/UiSlice';
+import style from './ProjectsDropdown.module.css';
+import useClickOutside from '../../../hooks/useClickOutside';
+import { useAppSelector } from '../../../hooks/useRedux';
+import { useAppDispatch } from '../../../hooks/useRedux';
+import { setUiTaskProjectSelect } from '../../../store/slices/UiSlice';
 
-export const Dropdown = () => {
+export const ProjectsDropdown = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const buttonRef = useRef<HTMLButtonElement | null>(null);

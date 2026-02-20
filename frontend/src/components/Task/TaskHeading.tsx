@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { DeleteButton } from '../Other/DeleteButton';
+import { DeleteButton } from '../shared/buttons/DeleteButton';
 import { deleteProject } from '../../store/slices/ProjectSlice';
 import { setUiProperty } from '../../store/slices/UiSlice';
 import style from './TaskHeading.module.css';

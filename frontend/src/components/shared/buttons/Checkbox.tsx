@@ -1,6 +1,6 @@
-import { useAppDispatch } from '../../hooks/useRedux';
-import { toggleStatus } from '../../store/slices/TaskSlice';
-import style from './CompleteButton.module.css';
+import { useAppDispatch } from '../../../hooks/useRedux';
+import { toggleStatus } from '../../../store/slices/TaskSlice';
+import style from './Checkbox.module.css';
 import clsx from 'clsx';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   taskId: string;
 }
 
-export const CompleteButton: React.FC<Props> = ({ taskId, checked }) => {
+export const Checkbox: React.FC<Props> = ({ taskId, checked }) => {
   const dispatch = useAppDispatch();
 
   return (

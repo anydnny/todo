@@ -3,7 +3,7 @@ import { createTask } from '../../store/slices/TaskSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import style from './TaskForm.module.css';
 import clsx from 'clsx';
-import { Dropdown } from '../Other/Popup';
+import { ProjectsDropdown } from '../shared/ui/ProjectsDropdown';
 import { tasksApi } from '../../api/tasksApi';
 
 interface TaskFormData {
@@ -59,7 +59,7 @@ export const TaskForm: React.FC = () => {
         className={style.taskForm__input}
       />
       <div className={style.taskForm__footer}>
-        <Dropdown />
+        <ProjectsDropdown />
         <span>
           <span>{taskProject.title}</span>
         </span>

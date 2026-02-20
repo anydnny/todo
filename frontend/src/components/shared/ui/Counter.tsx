@@ -1,7 +1,7 @@
-import style from './TaskCounter.module.css';
-import { useAppSelector } from '../../hooks/useRedux';
+import style from './Counter.module.css';
+import { useAppSelector } from '../../../hooks/useRedux';
 
-export const TaskCounter: React.FC<{ projectId: string }> = ({ projectId }) => {
+export const Counter: React.FC<{ projectId: string }> = ({ projectId }) => {
   const tasksCount = useAppSelector(
     state =>
       state.task.taskList.filter(

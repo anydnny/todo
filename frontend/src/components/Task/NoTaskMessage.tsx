@@ -1,4 +1,4 @@
-import style from './NoTaskMesage.module.css';
+import style from './NoTaskMessage.module.css';
 
 export const NoTaskMessage: React.FC = () => {
   return (

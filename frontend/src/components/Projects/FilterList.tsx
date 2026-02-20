@@ -6,7 +6,7 @@ import {
   setUiProperty,
   setUiTaskProjectSelect,
 } from '../../store/slices/UiSlice';
-import { TaskCounter } from '../Other/TaskCounter';
+import { Counter } from '../shared/ui/Counter';
 
 interface FilterListProps {
   type: PROJECT_TYPE;
@@ -42,7 +42,7 @@ export const FilterList: React.FC<FilterListProps> = ({
           onClick={() => handleActiveClick(item.id)}
         >
           <span className={style.sidesection__itemText}>{item.name}</span>
-          <TaskCounter projectId={item.id} />
+          <Counter projectId={item.id} />
         </li>
       ))}
     </ul>
