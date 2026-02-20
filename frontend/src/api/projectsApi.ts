@@ -1,46 +1,23 @@
-import { CreateProjectDto } from '../../../backend/src/projects/dto/create-project.dto';
 import type { Project } from '../utils/projectTypes';
+import { clientApi } from './clientApi';
 
-const API_URL = 'http://localhost:3000/projects';
+interface CreateProjectPayload {
+  name: string;
+}
 
 export const projectsApi = {
-  createProject: async (dto: CreateProjectDto): Promise<Project> => {
-    const response = await fetch(`${API_URL}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dto),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to create project');
-    }
-
-    return response.json() as Promise<Project>;
-  },
-  getAllProjects: async (): Promise<Project[]> => {
-    const response = await fetch(`${API_URL}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Failed to get projects');
-    }
-    return response.json() as Promise<Project[]>;
-  },
-  deleteProject: async (projectId: string): Promise<void> => {
-    const response = await fetch(`${API_URL}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: projectId }),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to delete project');
-    }
-  },
+  createProject: (payload: CreateProjectPayload): Promise<Project> =>
+    clientApi.post<Project, CreateProjectPayload>(
+      'projects',
+      payload,
+      'Ошибка при создании проекта'
+    ),
+  getAllProjects: (): Promise<Project[]> =>
+    clientApi.get<Project[]>('projects', 'Ошибка при получении проектов'),
+  deleteProject: (projectId: string): Promise<void> =>
+    clientApi.delete<void, { id: string }>(
+      'projects',
+      { id: projectId },
+      'Ошибка при удалении проекта'
+    ),
 };

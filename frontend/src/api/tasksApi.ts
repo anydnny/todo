@@ -1,58 +1,34 @@
-import { CreateTaskDto } from '../../../backend/src/tasks/dto/task.dto';
 import type { TaskType } from '../utils/taskTypes';
+import { clientApi } from './clientApi';
 
-const API_URL = 'http://localhost:3000/tasks';
+interface CreateTaskPayload {
+  title: string;
+  projectId: string;
+}
 
 export const tasksApi = {
-  createTask: async (dto: CreateTaskDto) => {
-    const response = await fetch(`${API_URL}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dto),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to create task');
-    }
-
-    return response.json();
-  },
-  getAllTasks: async (): Promise<TaskType[]> => {
-    const response = await fetch(`${API_URL}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Failed to get tasks');
-    }
-    return response.json() as Promise<TaskType[]>;
-  },
+  createTask: (payload: CreateTaskPayload): Promise<TaskType> =>
+    clientApi.post<TaskType, CreateTaskPayload>(
+      'tasks',
+      payload,
+      'Ошибка создания задачи'
+    ),
+  getAllTasks: (): Promise<TaskType[]> =>
+    clientApi.get<TaskType[]>('tasks', 'Ошибка при получении задач'),
   deleteTaskById: async (taskId: string): Promise<string> => {
-    const response = await fetch(`${API_URL}/${taskId}/delete`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Failed to get tasks');
-    }
+    await clientApi.delete<void>(
+      `tasks/${taskId}/delete`,
+      undefined,
+      'Ошибка при удалении задачи'
+    );
     return taskId;
   },
   toggleStatus: async (taskId: string): Promise<string> => {
-    const response = await fetch(`${API_URL}/${taskId}/status`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Failed to get tasks');
-    }
+    await clientApi.patch<void>(
+      `tasks/${taskId}/status`,
+      undefined,
+      'Ошибка при изменении статуса задачи'
+    );
     return taskId;
   },
 };
