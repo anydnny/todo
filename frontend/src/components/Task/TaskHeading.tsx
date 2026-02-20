@@ -1,7 +1,10 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { DeleteButton } from '../shared/buttons/DeleteButton';
 import { deleteProject } from '../../store/slices/ProjectSlice';
-import { setUiProperty } from '../../store/slices/UiSlice';
+import {
+  setUiProperty,
+  setUiTaskProjectSelect,
+} from '../../store/slices/UiSlice';
 import style from './TaskHeading.module.css';
 
 export const TaskHeading = () => {
@@ -21,9 +24,21 @@ export const TaskHeading = () => {
   );
 
   const deleteProjectFn = (projectId: string) => {
-    dispatch(deleteProject(projectId));
-    dispatch(setUiProperty('d406e045-29e0-4ae3-a8b9-aed2622cb328'));
+    dispatch(deleteProject(projectId)).then(() => {
+      dispatch(setUiProperty('d406e045-29e0-4ae3-a8b9-aed2622cb328'));
+      dispatch(
+        setUiTaskProjectSelect({
+          id: 'd406e045-29e0-4ae3-a8b9-aed2622cb328',
+          title: 'Inbox',
+        })
+      );
+    });
   };
+
+  if (!project) {
+    return null;
+  }
+
   return (
     <header>
       <h2 className={style.taskHeader__title}>{project?.name}</h2>
