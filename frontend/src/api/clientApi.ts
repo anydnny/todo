@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/';
+const API_URL = '/api/';
 
 type JsonBody = object;
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
