@@ -20,12 +20,17 @@ export const FilterList: React.FC<FilterListProps> = ({
   );
   const selectedProject = useAppSelector(state => state.ui.currentProjectId);
 
-  function handleActiveClick(index: string) {
-    dispatch(setUiProperty(index));
+  function handleActiveClick(projectId: string) {
+    const selected = projectList.find(item => item.id === projectId);
+    if (!selected) {
+      return;
+    }
+
+    dispatch(setUiProperty(projectId));
     dispatch(
       setUiTaskProjectSelect({
-        id: index,
-        title: projectList.filter(item => item.id === index)[0].name,
+        id: selected.id,
+        title: selected.name,
       })
     );
   }

@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import style from './TaskForm.module.css';
 import clsx from 'clsx';
 import { ProjectsDropdown } from '../shared/ui/ProjectsDropdown';
-import { tasksApi } from '../../api/tasksApi';
 
 interface TaskFormData {
   title: string;
@@ -18,35 +17,36 @@ export const TaskForm: React.FC = () => {
   const dispatch = useAppDispatch();
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement>): void {
-    setFormValue({ ...formValue, title: e.target.value });
+    setFormValue({ title: e.target.value });
   }
-
-  const currentProject = useAppSelector(state => state.ui.currentProjectId);
 
   async function handleTaskCreate(
     e: FormEvent<HTMLFormElement>
   ): Promise<void> {
     e.preventDefault();
+    const title = formValue.title.trim();
 
-    if (formValue.title.trim() === '') {
-      throw new Error('Task title cannot be empty');
-    } else {
-      try {
-        const newTask = await tasksApi.createTask({
-          title: formValue.title.trim(),
+    if (!title || !taskProject.id) {
+      return;
+    }
+
+    try {
+      await dispatch(
+        createTask({
+          title,
           projectId: taskProject.id,
-        });
-        dispatch(createTask(newTask));
-        setFormValue({ ...formValue, title: '' });
-      } catch (error) {
-        console.error('Error creating', error);
-      }
+        })
+      ).unwrap();
+      setFormValue({ title: '' });
+    } catch (error) {
+      console.error('Error creating task', error);
     }
   }
 
   const buttonStyle = clsx(
     style['taskForm__button'],
-    formValue.title.trim() === '' && style['taskForm__button--disabled']
+    (formValue.title.trim() === '' || !taskProject.id) &&
+      style['taskForm__button--disabled']
   );
 
   return (
@@ -61,12 +61,12 @@ export const TaskForm: React.FC = () => {
       <div className={style.taskForm__footer}>
         <ProjectsDropdown />
         <span>
-          <span>{taskProject.title}</span>
+          <span>{taskProject.title || 'Select project'}</span>
         </span>
         <button
           type="submit"
           className={buttonStyle}
-          disabled={formValue.title.trim() === ''}
+          disabled={formValue.title.trim() === '' || !taskProject.id}
         >
           <svg
             width="16"

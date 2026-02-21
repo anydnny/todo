@@ -2,10 +2,10 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { taskProjectSelect, UiInitialState } from '../../utils/uiTypes';
 
 const initialState: UiInitialState = {
-  currentProjectId: 'd406e045-29e0-4ae3-a8b9-aed2622cb328',
+  currentProjectId: '',
   createTaskProjectSelect: {
-    id: 'd406e045-29e0-4ae3-a8b9-aed2622cb328',
-    title: 'Inbox',
+    id: '',
+    title: '',
   },
 };
 

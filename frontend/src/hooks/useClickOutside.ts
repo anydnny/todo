@@ -1,9 +1,9 @@
 import { type RefObject, useEffect, useCallback } from 'react';
 
 function useClickOutside(
-  excludeRefs: RefObject<HTMLElement>[],
+  excludeRefs: Array<RefObject<HTMLElement | null>>,
   onOutside: () => void,
-  enabled: boolean = true // ← новый параметр
+  enabled: boolean = true
 ) {
   const handler = useCallback(
     (event: MouseEvent) => {
@@ -20,13 +20,13 @@ function useClickOutside(
   );
 
   useEffect(() => {
-    if (!enabled) return; // ← не добавляем listener если !enabled
+    if (!enabled) return;
 
     document.addEventListener('mousedown', handler);
     return () => {
       document.removeEventListener('mousedown', handler);
     };
-  }, [handler, enabled]); // ← enabled в зависимостях
+  }, [handler, enabled]);
 }
 
 export default useClickOutside;

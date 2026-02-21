@@ -3,11 +3,12 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import { TaskItem } from './TaskItem';
-import { TASK_STATUS } from '../../utils/taskTypes';
-const testTask = {
+import type { TaskType } from '../../utils/taskTypes';
+
+const testTask: TaskType = {
   id: '1',
   title: 'Test task',
-  status: TASK_STATUS.NEW,
+  status: 'new',
   createdAt: '2024-06-01',
   projectId: 'Inbox',
   isTaskEdit: false,
