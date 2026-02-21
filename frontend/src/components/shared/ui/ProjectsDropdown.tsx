@@ -18,10 +18,15 @@ export const ProjectsDropdown = () => {
     }
   }
   function clickMenuItem(id: string) {
+    const selectedProject = projectsList.find(item => item.id === id);
+    if (!selectedProject) {
+      return;
+    }
+
     dispatch(
       setUiTaskProjectSelect({
-        id: id,
-        title: projectsList.filter(item => item.id === id)[0].name,
+        id: selectedProject.id,
+        title: selectedProject.name,
       })
     );
     setOpen(false);
