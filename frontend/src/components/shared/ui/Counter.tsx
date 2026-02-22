@@ -1,7 +1,10 @@
 import style from './Counter.module.css';
 import { useAppSelector } from '../../../hooks/useRedux';
 
-export const Counter: React.FC<{ projectId: string }> = ({ projectId }) => {
+export const Counter: React.FC<{ projectId: string; srId: string }> = ({
+  projectId,
+  srId,
+}) => {
   const tasksCount = useAppSelector(
     state =>
       state.task.taskList.filter(
@@ -11,7 +14,10 @@ export const Counter: React.FC<{ projectId: string }> = ({ projectId }) => {
 
   return (
     <div className={style.counter}>
-      <span>{tasksCount}</span>
+      <span aria-hidden="true">{tasksCount}</span>
+      <span id={srId} className={style['visually-hidden']}>
+        {tasksCount} active tasks
+      </span>
     </div>
   );
 };

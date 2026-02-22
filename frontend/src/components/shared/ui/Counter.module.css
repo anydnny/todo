@@ -14,3 +14,17 @@
 
   background-color: var(--bg-color-grey--accent);
 }
+.visually-hidden {
+  position: absolute;
+
+  overflow: hidden;
+
+  width: 1px;
+  height: 1px;
+
+  white-space: nowrap;
+
+  clip-path: inset(50%);
+
+  clip: rect(0 0 0 0);
+}

@@ -36,21 +36,27 @@ export const FilterList: React.FC<FilterListProps> = ({
   }
 
   return (
-    <ul className={style.sidesection__list}>
+    <ul className={style.sidesection__list} aria-label={`Список проектов`}>
       {projectList.map(item => (
         <li
           key={item.id}
           className={style.sidesection__item}
-          onClick={() => handleActiveClick(item.id)}
+          aria-label={`Элемент списка проектов"`}
         >
           <button
             className={clsx(
               style['sidesection__button'],
               selectedProject === item.id && style['sidesection__button-active']
             )}
+            onClick={() => handleActiveClick(item.id)}
+            type="button"
+            aria-current={selectedProject === item.id ? 'page' : undefined}
+            aria-label={`Проект ` + `"${item.name}"`}
+            aria-description={`Открыть проект ` + `"${item.name}"`}
+            aria-describedby={`project-count-${item.id}`}
           >
             <span className={style.sidesection__itemText}>{item.name}</span>
-            <Counter projectId={item.id} />
+            <Counter projectId={item.id} srId={`project-count-${item.id}`} />
           </button>
         </li>
       ))}
