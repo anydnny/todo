@@ -24,37 +24,40 @@
 }
 
 .sidesection__item {
+  width: 100%;
+  list-style-type: none;
+}
+
+.sidesection__button {
   cursor: pointer;
 
   display: flex;
   gap: clamp(6px, 1.5vw, 8px);
-  align-items: center;
-  justify-content: space-between;
-
   width: 100%;
   padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 12px);
 
   font-size: clamp(12px, 1.5vw, 14px);
   line-height: 1.5;
   text-transform: capitalize;
-  list-style-type: none;
-
+  align-items: center;
+  justify-content: space-between;
   transition: background-color 0.2s ease-in-out;
+  background-color: transparent;
+  border: none;
 }
 
-.sidesection__item:hover {
+.sidesection__button:hover {
   background-color: var(--bg-color-grey--hover);
 }
-
-.sidesection__item-active {
+.sidesection__button-active {
   font-weight: bold;
 }
-
 .sidesection__itemText {
   overflow: hidden;
   flex: 1;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: start;
 }
 
 @media (max-width: 768px) {

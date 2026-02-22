@@ -40,14 +40,18 @@ export const FilterList: React.FC<FilterListProps> = ({
       {projectList.map(item => (
         <li
           key={item.id}
-          className={clsx(
-            style['sidesection__item'],
-            selectedProject === item.id && style['sidesection__item-active']
-          )}
+          className={style.sidesection__item}
           onClick={() => handleActiveClick(item.id)}
         >
-          <span className={style.sidesection__itemText}>{item.name}</span>
-          <Counter projectId={item.id} />
+          <button
+            className={clsx(
+              style['sidesection__button'],
+              selectedProject === item.id && style['sidesection__button-active']
+            )}
+          >
+            <span className={style.sidesection__itemText}>{item.name}</span>
+            <Counter projectId={item.id} />
+          </button>
         </li>
       ))}
     </ul>
