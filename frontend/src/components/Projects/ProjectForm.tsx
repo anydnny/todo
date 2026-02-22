@@ -8,6 +8,7 @@ import { createProject } from '../../store/slices/ProjectSlice';
 export const ProjectForm: React.FC = () => {
   const [formValue, setFormValue] = useState('');
   const dispatch = useAppDispatch();
+  const projectNameInputId = 'project-name-input';
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement>): void {
     setFormValue(e.target.value);
@@ -25,7 +26,11 @@ export const ProjectForm: React.FC = () => {
   }
   return (
     <form onSubmit={handleProjectCreate} className={style.projectForm}>
+      <label htmlFor={projectNameInputId} className={style.visuallyHidden}>
+        Название нового проекта
+      </label>
       <input
+        id={projectNameInputId}
         type="text"
         placeholder="New project..."
         value={formValue}

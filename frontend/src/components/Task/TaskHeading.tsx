@@ -61,7 +61,10 @@ export const TaskHeading = () => {
       <div className={style.taskHeader__footer}>
         <p>{tasksCount} active tasks</p>
         {project?.projectListType === 'custom' && (
-          <DeleteButton deleteFn={() => deleteProjectFn(currentProjectId)} />
+          <DeleteButton
+            deleteFn={() => deleteProjectFn(currentProjectId)}
+            ariaActionText={`Удалить проект ${project?.name} и все его задачи`}
+          />
         )}
       </div>
     </header>

@@ -13,13 +13,25 @@ export const TaskListSection: React.FC<TaskListSectionProps> = ({
   title,
   taskList,
 }) => {
+  const hasHeading = taskList.length > 0;
+  const sectionHeadingId = `task-list-section-${title}`;
+
   return (
-    <section className={style.taskListSection}>
+    <section
+      className={style.taskListSection}
+      aria-labelledby={hasHeading ? sectionHeadingId : undefined}
+      aria-label={!hasHeading ? `${title} tasks` : undefined}
+    >
       {title === 'active' && taskList.length === 0 && <NoTaskMessage />}
-      {taskList.length > 0 && (
-        <h2 className={clsx(style['taskList__title'], 'text-lg')}>{title}</h2>
+      {hasHeading && (
+        <h2
+          id={sectionHeadingId}
+          className={clsx(style['taskList__title'], 'text-lg')}
+        >
+          {title}
+        </h2>
       )}
-      {taskList.length > 0 && (
+      {hasHeading && (
         <ul className={style.taskList}>
           {taskList.map((taskInfo, index) => (
             <li key={index}>

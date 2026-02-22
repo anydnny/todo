@@ -6,13 +6,21 @@ import { DeleteButton } from '../shared/buttons/DeleteButton';
 import { Checkbox } from '../shared/buttons/Checkbox';
 export const TaskItem: React.FC<TaskTypeProps> = ({ taskInfo }) => {
   const dispatch = useAppDispatch();
+  const taskTitleId = `task-title-${taskInfo.id}`;
 
   return (
     <article className={style.taskItem}>
-      <Checkbox taskId={taskInfo.id} checked={taskInfo.status === 'complete'} />
-      <p>{taskInfo.title}</p>
+      <Checkbox
+        taskId={taskInfo.id}
+        checked={taskInfo.status === 'complete'}
+        labelledBy={taskTitleId}
+      />
+      <p id={taskTitleId}>{taskInfo.title}</p>
       <div className={style.toolbox}>
-        <DeleteButton deleteFn={() => dispatch(deleteById(taskInfo.id))} />
+        <DeleteButton
+          deleteFn={() => dispatch(deleteById(taskInfo.id))}
+          ariaActionText={`Удалить задачу ${taskInfo.title}`}
+        />
       </div>
     </article>
   );

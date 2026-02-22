@@ -13,6 +13,7 @@ export const TaskForm: React.FC = () => {
   const [formValue, setFormValue] = useState<TaskFormData>({
     title: '',
   });
+  const taskTitleInputId = 'task-title-input';
 
   const dispatch = useAppDispatch();
 
@@ -51,7 +52,11 @@ export const TaskForm: React.FC = () => {
 
   return (
     <form onSubmit={handleTaskCreate} className={style.taskForm}>
+      <label htmlFor={taskTitleInputId} className={style.visuallyHidden}>
+        Название новой задачи
+      </label>
       <input
+        id={taskTitleInputId}
         type="text"
         placeholder="What needs to be done?"
         value={formValue.title}

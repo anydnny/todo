@@ -6,9 +6,10 @@ import clsx from 'clsx';
 interface Props {
   checked: boolean;
   taskId: string;
+  labelledBy: string;
 }
 
-export const Checkbox: React.FC<Props> = ({ taskId, checked }) => {
+export const Checkbox: React.FC<Props> = ({ taskId, checked, labelledBy }) => {
   const dispatch = useAppDispatch();
 
   return (
@@ -18,6 +19,7 @@ export const Checkbox: React.FC<Props> = ({ taskId, checked }) => {
         className={clsx(style['visually-hidden'])}
         onChange={() => dispatch(toggleStatus(taskId))}
         checked={checked || false}
+        aria-labelledby={labelledBy}
       />
       {checked ? (
         <svg

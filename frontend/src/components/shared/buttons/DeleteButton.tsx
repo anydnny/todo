@@ -1,10 +1,16 @@
 import style from './DeleteButton.module.css';
 interface Props {
   deleteFn: () => void;
+  ariaActionText?: string;
 }
-export const DeleteButton: React.FC<Props> = ({ deleteFn }) => {
+export const DeleteButton: React.FC<Props> = ({ deleteFn, ariaActionText }) => {
   return (
-    <button onClick={() => deleteFn()} className={style.deleteButton}>
+    <button
+      type="button"
+      onClick={() => deleteFn()}
+      className={style.deleteButton}
+      aria-label={ariaActionText}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
