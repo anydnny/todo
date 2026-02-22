@@ -29,7 +29,6 @@
   font-size: clamp(13px, 2vw, 16px);
   line-height: 18px;
 
-  outline: none;
 }
 
 .taskForm__footer {
@@ -47,7 +46,6 @@
 
   font-size: clamp(12px, 1.5vw, 14px);
 
-  outline: none;
 }
 
 .taskForm__button {
@@ -65,7 +63,6 @@
   color: white;
 
   background-color: red;
-  outline: none;
 
   transition: background-color 0.2s ease;
 }

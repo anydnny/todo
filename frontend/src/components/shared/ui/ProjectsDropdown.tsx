@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import style from './ProjectsDropdown.module.css';
 import useClickOutside from '../../../hooks/useClickOutside';
 import { useAppSelector } from '../../../hooks/useRedux';
@@ -11,7 +11,9 @@ export const ProjectsDropdown = () => {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const listRef = useRef<HTMLUListElement | null>(null);
   const projectsList = useAppSelector(state => state.project.projectList);
-
+  const currentProject = useAppSelector(
+    state => state.ui.createTaskProjectSelect
+  );
   function toggleUiProperty() {
     if (open) {
       setOpen(false);
@@ -33,6 +35,20 @@ export const ProjectsDropdown = () => {
   }
 
   useClickOutside([buttonRef, listRef], toggleUiProperty, open);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        buttonRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open]);
 
   return (
     <div className={style.projectSelectPopup}>
@@ -86,17 +102,20 @@ export const ProjectsDropdown = () => {
       </button>
       {open && (
         <ul id="dropdown-menu" role="menu" ref={listRef}>
-          {projectsList.map(item => (
-            <li key={item.id}>
-              <button
-                role="menuitem"
-                type="button"
-                onClick={() => clickMenuItem(item.id)}
-              >
-                {item.name}
-              </button>
-            </li>
-          ))}
+          {projectsList.map(
+            item =>
+              item.id !== currentProject.id && (
+                <li key={item.id}>
+                  <button
+                    role="menuitem"
+                    type="button"
+                    onClick={() => clickMenuItem(item.id)}
+                  >
+                    {item.name}
+                  </button>
+                </li>
+              )
+          )}
         </ul>
       )}
     </div>

@@ -26,7 +26,6 @@
 
   font-size: clamp(12px, 2vw, 16px);
 
-  outline: none;
 }
 
 .projectForm__createButton {
@@ -42,8 +41,6 @@
   border-radius: 0;
 
   background-color: transparent;
-  outline: none;
-
   transition: background-color 0.2s ease-in-out;
 }
 
@@ -53,6 +50,17 @@
 
 .projectForm__createButton:active {
   background-color: var(--bg-color-grey--accent, #3333331a);
+}
+
+.projectForm__createButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  background-color: transparent;
+}
+
+.projectForm__createButton:disabled:hover,
+.projectForm__createButton:disabled:active {
+  background-color: transparent;
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {

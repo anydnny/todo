@@ -6,6 +6,7 @@
 }
 
 :root {
+  --focus-ring: #2563eb;
   --color-black--primary: #000;
   --color-grey--primary: #333;
   --color-grey--muted: #3339;
@@ -117,4 +118,18 @@ a {
   html {
     font-size: 13px;
   }
+}
+
+:where(button, input, select, textarea, a):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+:where(button, input, select, textarea, a):focus:not(:focus-visible) {
+  outline: none;
+}
+
+:root[data-input-modality='pointer'] :where(input, textarea):focus {
+  outline: none;
+  box-shadow: none;
 }

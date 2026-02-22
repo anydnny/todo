@@ -5,6 +5,21 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 
+const rootElement = document.documentElement;
+
+const setPointerModality = () => {
+  rootElement.dataset.inputModality = 'pointer';
+};
+
+const setKeyboardModality = (event: KeyboardEvent) => {
+  if (event.key === 'Tab') {
+    rootElement.dataset.inputModality = 'keyboard';
+  }
+};
+
+window.addEventListener('pointerdown', setPointerModality, true);
+window.addEventListener('keydown', setKeyboardModality, true);
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>

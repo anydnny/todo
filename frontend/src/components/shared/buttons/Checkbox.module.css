@@ -1,64 +1,58 @@
 .visually-hidden {
   position: absolute;
-
   overflow: hidden;
-
   width: 1px;
   height: 1px;
-
   white-space: nowrap;
-
   clip-path: inset(50%);
-
   clip: rect(0 0 0 0);
 }
-label {
+
+.checkboxLabel {
   display: flex;
   align-items: center;
 }
-label span {
+
+.checkboxControl {
   cursor: pointer;
-
-  display: inline-block;
-
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: clamp(18px, 5vw, 24px);
   height: clamp(18px, 5vw, 24px);
   margin-right: clamp(4px, 1vw, 8px);
   border: 1px solid black;
   border-radius: 50%;
-
-  vertical-align: middle;
-
   background-color: transparent;
-
-  transition: background-color 0.2s ease-in-out;
-}
-input[type='checkbox']:hover + span {
-  border: 1px solid green;
-}
-input[type='checkbox']:hover + svg {
-  cursor: pointer;
-}
-input[type='checkbox']:checked + span {
-  background-color: green;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+  color: #111;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-input[type='checkbox']:focus-visible + span {
-  outline: none;
-  box-shadow: 0 0 0 clamp(3px, 1vw, 5px) rgb(254 175 232 / 0.5);
+.checkboxControlChecked {
+  background-color: transparent;
+  border-color: #111;
+}
+
+.checkboxIcon {
+  pointer-events: none;
+}
+
+input[type='checkbox']:hover + .checkboxControl {
+  border-color: #111;
+}
+
+input[type='checkbox']:focus-visible + .checkboxControl {
+  box-shadow: 0 0 0 clamp(3px, 1vw, 5px) rgb(37 99 235 / 0.35);
 }
 
 @media (max-width: 640px) {
-  label span {
+  .checkboxControl {
     width: 20px;
     height: 20px;
     margin-right: 6px;
   }
 
-  input[type='checkbox']:focus-visible + span {
-    box-shadow: 0 0 0 3px rgb(254 175 232 / 0.5);
+  input[type='checkbox']:focus-visible + .checkboxControl {
+    box-shadow: 0 0 0 3px rgb(37 99 235 / 0.35);
   }
 }

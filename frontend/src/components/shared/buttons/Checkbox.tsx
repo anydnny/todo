@@ -13,7 +13,7 @@ export const Checkbox: React.FC<Props> = ({ taskId, checked, labelledBy }) => {
   const dispatch = useAppDispatch();
 
   return (
-    <label className="complete-checkbox">
+    <label className={style.checkboxLabel}>
       <input
         type="checkbox"
         className={clsx(style['visually-hidden'])}
@@ -21,21 +21,28 @@ export const Checkbox: React.FC<Props> = ({ taskId, checked, labelledBy }) => {
         checked={checked || false}
         aria-labelledby={labelledBy}
       />
-      {checked ? (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-        >
-          <path d="M20 6 9 17l-5-5"></path>
-        </svg>
-      ) : (
-        <span></span>
-      )}
+      <span
+        className={clsx(
+          style.checkboxControl,
+          checked && style.checkboxControlChecked
+        )}
+        aria-hidden="true"
+      >
+        {checked && (
+          <svg
+            className={style.checkboxIcon}
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path d="M20 6 9 17l-5-5"></path>
+          </svg>
+        )}
+      </span>
     </label>
   );
 };

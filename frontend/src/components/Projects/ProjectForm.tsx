@@ -9,6 +9,8 @@ export const ProjectForm: React.FC = () => {
   const [formValue, setFormValue] = useState('');
   const dispatch = useAppDispatch();
   const projectNameInputId = 'project-name-input';
+  const trimmedValue = formValue.trim();
+  const isCreateDisabled = trimmedValue === '';
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement>): void {
     setFormValue(e.target.value);
@@ -16,13 +18,10 @@ export const ProjectForm: React.FC = () => {
 
   function handleProjectCreate(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    const newProject = { name: formValue.trim() };
-    if (formValue.trim() === '') {
-      throw new Error('Task title cannot be empty');
-    } else {
-      dispatch(createProject(newProject));
-      setFormValue('');
-    }
+    if (isCreateDisabled) return;
+
+    dispatch(createProject({ name: trimmedValue }));
+    setFormValue('');
   }
   return (
     <form onSubmit={handleProjectCreate} className={style.projectForm}>
@@ -37,7 +36,12 @@ export const ProjectForm: React.FC = () => {
         onChange={handleInputChange}
         className={style.projectForm__input}
       />
-      <button type="submit" className={style.projectForm__createButton}>
+      <button
+        type="submit"
+        className={style.projectForm__createButton}
+        disabled={isCreateDisabled}
+        aria-label="Создать проект"
+      >
         <svg
           width="16"
           height="16"
