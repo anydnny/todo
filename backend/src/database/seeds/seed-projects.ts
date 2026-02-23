@@ -1,6 +1,6 @@
-import { AppDataSource } from '../config';
-import { projectsSeedData } from './seed-projects-data';
-import { Project } from '../projects/entities/project.entity';
+import { AppDataSource } from '../data-source';
+import { projectsSeedData } from './data/seed-projects-data';
+import { Project } from '../../modules/projects/entities/project.entity';
 
 import { Repository } from 'typeorm';
 

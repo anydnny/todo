@@ -6,8 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { dbConfig } from './config';
 import { IDbConfigType } from './config/config.types';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { TasksModule } from './tasks/tasks.module';
-import { ProjectsModule } from './projects/projects.module';
+import { TasksModule } from './modules/tasks/tasks.module';
+import { ProjectsModule } from './modules/projects/projects.module';
 
 @Module({
   imports: [

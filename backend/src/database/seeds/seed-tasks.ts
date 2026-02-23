@@ -1,7 +1,7 @@
-import { AppDataSource } from '../config';
-import { tasksSeedData } from './seed-tasks-data';
-import { Task } from '../tasks/entities/tasks.entity';
-import { Project } from '../projects/entities/project.entity';
+import { AppDataSource } from '../data-source';
+import { tasksSeedData } from './data/seed-tasks-data';
+import { Task } from '../../modules/tasks/entities/task.entity';
+import { Project } from '../../modules/projects/entities/project.entity';
 import { Repository } from 'typeorm';
 
 async function tasksSeed() {

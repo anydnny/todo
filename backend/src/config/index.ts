@@ -2,5 +2,5 @@ export {
   AppDataSource,
   initializeDataSource,
   closeDataSource,
-} from './data-source';
+} from '../database/data-source';
 export { dbConfig } from './db.config';
