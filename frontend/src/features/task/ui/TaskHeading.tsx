@@ -1,15 +1,13 @@
 import { useAppDispatch, useAppSelector } from '../../../hooks/useRedux';
 import { DeleteButton } from '../../../shared/ui/DeleteButton';
 import { deleteProject } from '../../project/model/ProjectSlice';
-import {
-  setUiProperty,
-  setUiTaskProjectSelect,
-} from '../../ui/model/UiSlice';
 import { PROJECT_TYPE } from '../../project/types/projectTypes';
 import style from './TaskHeading.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export const TaskHeading = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const currentProjectId = useAppSelector(state => state.ui.currentProjectId);
   const projectList = useAppSelector(state => state.project.projectList);
@@ -37,18 +35,11 @@ export const TaskHeading = () => {
     }
 
     if (!fallbackProject) {
-      dispatch(setUiProperty(''));
-      dispatch(setUiTaskProjectSelect({ id: '', title: '' }));
+      navigate('/projects', { replace: true });
       return;
     }
 
-    dispatch(setUiProperty(fallbackProject.id));
-    dispatch(
-      setUiTaskProjectSelect({
-        id: fallbackProject.id,
-        title: fallbackProject.name,
-      })
-    );
+    navigate(`/projects/${fallbackProject.id}`, { replace: true });
   };
 
   if (!project) {
