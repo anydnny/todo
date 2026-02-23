@@ -25,7 +25,7 @@ export const ProjectForm: React.FC = () => {
   }
   return (
     <form onSubmit={handleProjectCreate} className={style.projectForm}>
-      <label htmlFor={projectNameInputId} className={style.visuallyHidden}>
+      <label htmlFor={projectNameInputId} className="visually-hidden">
         Название нового проекта
       </label>
       <input

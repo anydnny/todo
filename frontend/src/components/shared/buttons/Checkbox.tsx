@@ -16,7 +16,7 @@ export const Checkbox: React.FC<Props> = ({ taskId, checked, labelledBy }) => {
     <label className={style.checkboxLabel}>
       <input
         type="checkbox"
-        className={clsx(style['visually-hidden'])}
+        className="visually-hidden"
         onChange={() => dispatch(toggleStatus(taskId))}
         checked={checked || false}
         aria-labelledby={labelledBy}

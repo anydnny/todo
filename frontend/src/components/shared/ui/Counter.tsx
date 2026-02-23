@@ -15,7 +15,7 @@ export const Counter: React.FC<{ projectId: string; srId: string }> = ({
   return (
     <div className={style.counter}>
       <span aria-hidden="true">{tasksCount}</span>
-      <span id={srId} className={style['visually-hidden']}>
+      <span id={srId} className="visually-hidden">
         {tasksCount} active tasks
       </span>
     </div>

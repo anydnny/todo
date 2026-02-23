@@ -52,7 +52,7 @@ export const TaskForm: React.FC = () => {
 
   return (
     <form onSubmit={handleTaskCreate} className={style.taskForm}>
-      <label htmlFor={taskTitleInputId} className={style.visuallyHidden}>
+      <label htmlFor={taskTitleInputId} className="visually-hidden">
         Название новой задачи
       </label>
       <input
