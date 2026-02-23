@@ -1,16 +1,20 @@
-import { Layout } from './components/Layout/Layout';
-import { LayoutAside } from './components/Layout/LayoutAside';
-import { ProjectList } from './components/Projects/ProjectList';
-import { TaskForm } from './components/Task/TaskForm';
-import { TaskHeading } from './components/Task/TaskHeading';
-import { TaskList } from './components/Task/TaskList';
-import { LayoutMain } from './components/Layout/LayoutMain';
+import { Layout } from './widgets/layout/Layout';
+import { LayoutAside } from './widgets/layout/LayoutAside';
+import { ProjectList } from './features/project/ui/ProjectList';
+import { LayoutMain } from './widgets/layout/LayoutMain';
 import { useEffect } from 'react';
 import { useAppDispatch } from './hooks/useRedux';
-import { getAll as getAllTasks } from './store/slices/TaskSlice';
-import { getAll as getAllProjects } from './store/slices/ProjectSlice';
-import { setUiProperty, setUiTaskProjectSelect } from './store/slices/UiSlice';
-import { PROJECT_TYPE, type Project } from './utils/projectTypes';
+import { getAll as getAllTasks } from './features/task/model/TaskSlice';
+import { getAll as getAllProjects } from './features/project/model/ProjectSlice';
+import {
+  setUiProperty,
+  setUiTaskProjectSelect,
+} from './features/ui/model/UiSlice';
+import {
+  PROJECT_TYPE,
+  type Project,
+} from './features/project/types/projectTypes';
+import { TasksMain } from './widgets/tasks/TasksMain';
 
 const getDefaultProject = (projects: Project[]) =>
   projects.find(project => project.projectListType === PROJECT_TYPE.SYSTEM) ??
@@ -51,9 +55,7 @@ function App() {
         <ProjectList title="projects" />
       </LayoutAside>
       <LayoutMain>
-        <TaskHeading />
-        <TaskForm />
-        <TaskList />
+        <TasksMain />
       </LayoutMain>
     </Layout>
   );
