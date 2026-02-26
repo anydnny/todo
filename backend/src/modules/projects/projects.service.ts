@@ -22,6 +22,14 @@ export class ProjectsService {
     if (!projectId || projectId.trim() === '') {
       throw new BadRequestException('Project ID is required');
     }
+    const project = await this.projectRepository.findOne({
+      where: { id: projectId },
+    });
+    if (!project) {
+      throw new BadRequestException('Project not found');
+    } else if (project.projectListType === 'system') {
+      throw new BadRequestException('Cannot delete system project');
+    }
     return this.projectRepository.delete({ id: projectId });
   }
 }
