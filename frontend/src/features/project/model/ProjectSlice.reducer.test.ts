@@ -1,5 +1,10 @@
 import { type ProjectInitialState, PROJECT_TYPE } from '../types/projectTypes';
-import { createProject, deleteProject, reducer } from './ProjectSlice';
+import {
+  createProject,
+  deleteProject,
+  changeProjectName,
+  reducer,
+} from './ProjectSlice';
 import { describe, it, expect } from '@jest/globals';
 
 describe('Project Reducer', () => {
@@ -53,5 +58,43 @@ describe('Project Reducer', () => {
     expect(next.projectList).toHaveLength(2);
     expect(next.projectList.find(p => p.id === 'p2')).toBeDefined();
     expect(next.error).toBe('Cannot delete system project');
+  });
+
+  it('changeProjectName меняет имя проекта', () => {
+    const action = changeProjectName({ id: 'p1', newName: 'Renamed Project' });
+    const next = reducer(initialState, action);
+
+    expect(next.projectList.find(p => p.id === 'p1')?.name).toBe(
+      'Renamed Project'
+    );
+  });
+
+  it('removeProject удаляет проект по id', () => {
+    const action = { type: 'projects/removeProject', payload: 'p1' };
+    const next = reducer(initialState, action);
+
+    expect(next.projectList).toHaveLength(1);
+    expect(next.projectList[0].id).toBe('p2');
+  });
+
+  it('getAll.rejected использует fallback текст ошибки', () => {
+    const action = { type: 'projects/getAll/rejected', error: {} };
+    const next = reducer(initialState, action);
+
+    expect(next.error).toBe('Failed to load projects');
+  });
+
+  it('createProject.rejected использует fallback текст ошибки', () => {
+    const action = { type: 'projects/create/rejected', error: {} };
+    const next = reducer(initialState, action);
+
+    expect(next.error).toBe('Failed to create projects');
+  });
+
+  it('deleteProject.rejected использует fallback текст ошибки', () => {
+    const action = { type: 'projects/delete/rejected', error: {} };
+    const next = reducer(initialState, action);
+
+    expect(next.error).toBe('Failed to delete project');
   });
 });
