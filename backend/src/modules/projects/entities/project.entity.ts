@@ -14,7 +14,7 @@ export class Project {
   })
   createdAt: Date;
 
-  @Column({ default: 'custom' })
+  @Column({ name: 'project_list_type', default: 'custom' })
   projectListType: string;
 
   @OneToMany(() => Task, (task) => task.project)

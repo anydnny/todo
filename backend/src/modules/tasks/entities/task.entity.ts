@@ -27,12 +27,12 @@ export class Task {
   @Column({ name: 'is_task_edit', type: 'boolean', default: false })
   isTaskEdit: boolean;
 
-  @Column()
+  @Column({ name: 'project_id', type: 'uuid' })
   projectId: string;
 
   @ManyToOne(() => Project, (project) => project.tasks, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'projectId' })
+  @JoinColumn({ name: 'project_id' })
   project: Project;
 }
