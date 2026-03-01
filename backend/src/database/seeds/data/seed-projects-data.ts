@@ -1,13 +1,8 @@
+import { SYSTEM_PROJECTS_REGISTRY } from '../../../modules/projects/constants/system-projects.registry';
+
 export const projectsSeedData = [
-  {
-    name: 'Учёба',
-  },
-  {
-    id: 'd406e045-29e0-4ae3-a8b9-aed2622cb328',
-    name: 'inbox',
-    projectListType: 'system',
-  },
-  {
-    name: 'Личное',
-  },
+  ...SYSTEM_PROJECTS_REGISTRY.map((project) => ({
+    ...project,
+    projectListType: 'system' as const,
+  })),
 ];
