@@ -102,6 +102,14 @@
   outline-offset: -2px;
 }
 
+.projectSelect__emptyState {
+  padding: clamp(6px, 1.5vw, 12px) clamp(8px, 2vw, 16px);
+  color: #666;
+  font-size: clamp(12px, 1.8vw, 14px);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
 @media (max-width: 768px) {
   .projectSelectPopup ul[id='dropdown-menu'] {
     max-width: 90vw;

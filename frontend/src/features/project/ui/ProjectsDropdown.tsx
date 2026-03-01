@@ -14,6 +14,9 @@ export const ProjectsDropdown = (props: DropdownProps) => {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const listRef = useRef<HTMLUListElement | null>(null);
+  const availableProjects = props.projectsList.filter(
+    item => item.id !== props.currentProjectId
+  );
 
   function toggleUiProperty() {
     if (open) {
@@ -98,20 +101,22 @@ export const ProjectsDropdown = (props: DropdownProps) => {
       </button>
       {open && (
         <ul id="dropdown-menu" role="menu" ref={listRef}>
-          {props.projectsList.map(
-            item =>
-              item.id !== props.currentProjectId && (
-                <li key={item.id}>
-                  <button
-                    role="menuitem"
-                    type="button"
-                    onClick={() => clickMenuItem(item.id)}
-                  >
-                    {item.name}
-                  </button>
-                </li>
-              )
+          {availableProjects.length === 0 && (
+            <li className={style.projectSelect__emptyState}>
+              Нет проектов для выбора
+            </li>
           )}
+          {availableProjects.map(item => (
+            <li key={item.id}>
+              <button
+                role="menuitem"
+                type="button"
+                onClick={() => clickMenuItem(item.id)}
+              >
+                {item.name}
+              </button>
+            </li>
+          ))}
         </ul>
       )}
     </div>
