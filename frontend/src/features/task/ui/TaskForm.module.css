@@ -16,7 +16,6 @@
 
   font-size: clamp(13px, 2vw, 16px);
   line-height: 18px;
-
 }
 
 .taskForm__footer {
@@ -25,7 +24,9 @@
   gap: clamp(8px, 2vw, 16px);
   align-items: center;
 }
-
+.taskForm__footer > span {
+  color: grey;
+}
 .taskForm__projectSelect {
   cursor: pointer;
 
@@ -33,7 +34,6 @@
   border: none;
 
   font-size: clamp(12px, 1.5vw, 14px);
-
 }
 
 .taskForm__button {

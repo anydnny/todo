@@ -1,8 +1,8 @@
 .deleteButton {
   cursor: pointer;
 
-  width: clamp(14px, 2vw, 20px);
-  height: clamp(14px, 2vw, 20px);
+  width: clamp(15px, 2.1vw, 18px);
+  height: clamp(15px, 2.1vw, 18px);
   border: none;
 
   color: grey;
@@ -10,6 +10,11 @@
   background-color: transparent;
 
   transition: ease-in-out 0.2s;
+}
+
+.deleteButton svg {
+  width: 100%;
+  height: 100%;
 }
 
 .deleteButton:hover {
@@ -23,14 +28,14 @@
 
 @media (max-width: 768px) {
   .deleteButton {
-    width: clamp(16px, 3vw, 22px);
-    height: clamp(16px, 3vw, 22px);
+    width: clamp(17px, 3vw, 23px);
+    height: clamp(17px, 3vw, 23px);
   }
 }
 
 @media (max-width: 480px) {
   .deleteButton {
-    width: clamp(18px, 4vw, 24px);
-    height: clamp(18px, 4vw, 24px);
+    width: clamp(19px, 4vw, 25px);
+    height: clamp(19px, 4vw, 25px);
   }
 }

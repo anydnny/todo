@@ -34,14 +34,17 @@
 
   display: flex;
   flex-shrink: 0;
-  gap: clamp(8px, 2vw, 12px);
+  gap: clamp(8px, 2vw, 10px);
 }
-
+.toolbox .projectSelect__icon {
+  width: 82%;
+  height: 82%;
+}
 .taskItem:has(input[type='checkbox']:hover) {
   box-shadow: clamp(3px, 1vw, 8px) clamp(3px, 1vw, 8px) rgb(0, 168, 0);
 }
 
-.taskItem:has(button:hover) {
+.taskItem:has([data-delete-button='true']:hover) {
   box-shadow: clamp(3px, 1vw, 8px) clamp(3px, 1vw, 8px) rgb(191, 0, 0);
 }
 

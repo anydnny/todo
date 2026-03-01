@@ -4,12 +4,14 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/useRedux';
 import style from './TaskForm.module.css';
 import clsx from 'clsx';
 import { ProjectsDropdown } from '../../project/ui/ProjectsDropdown';
+import { setUiTaskProjectSelect } from '../../ui/model/UiSlice';
 
 interface TaskFormData {
   title: string;
 }
 export const TaskForm: React.FC = () => {
   const taskProject = useAppSelector(state => state.ui.createTaskProjectSelect);
+  const projectsList = useAppSelector(state => state.project.projectList);
   const [formValue, setFormValue] = useState<TaskFormData>({
     title: '',
   });
@@ -64,10 +66,20 @@ export const TaskForm: React.FC = () => {
         className={style.taskForm__input}
       />
       <div className={style.taskForm__footer}>
-        <ProjectsDropdown />
-        <span>
-          <span>{taskProject.title || 'Select project'}</span>
-        </span>
+        <ProjectsDropdown
+          projectsList={projectsList}
+          currentProjectId={taskProject.id}
+          onSelect={project =>
+            dispatch(
+              setUiTaskProjectSelect({
+                id: project.id,
+                title: project.name,
+              })
+            )
+          }
+        />
+
+        <span>{taskProject.title || 'Select project'}</span>
         <button
           type="submit"
           className={buttonStyle}
