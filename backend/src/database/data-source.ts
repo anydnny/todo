@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm';
 import { dbConfig } from '../config/db.config';
 
 export const AppDataSource = new DataSource(dbConfig());
+export default AppDataSource;
 
 // Функция для инициализации подключения
 export const initializeDataSource = async (): Promise<DataSource> => {
