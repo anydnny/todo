@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -18,7 +18,7 @@ export class ProjectsService {
   async findAll() {
     return this.projectRepository.find({});
   }
-  async deleteProject(projectId: string) {
+  async deleteProject(projectId: string): Promise<void> {
     if (!projectId || projectId.trim() === '') {
       throw new BadRequestException('Project ID is required');
     }
@@ -26,10 +26,10 @@ export class ProjectsService {
       where: { id: projectId },
     });
     if (!project) {
-      throw new BadRequestException('Project not found');
+      throw new NotFoundException('Project not found');
     } else if (project.projectListType === 'system') {
       throw new BadRequestException('Cannot delete system project');
     }
-    return this.projectRepository.delete({ id: projectId });
+    await this.projectRepository.delete({ id: projectId });
   }
 }

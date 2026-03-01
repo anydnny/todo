@@ -39,7 +39,9 @@ const createStoreWithProjects = () =>
     },
   });
 
-beforeEach(() => jest.clearAllMocks());
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
 const mockedProjectResult: Project = {
   id: 'p1',

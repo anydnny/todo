@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectsService } from './projects.service';
 import { Project } from './entities/project.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 
 describe('ProjectsService', () => {
@@ -75,7 +75,7 @@ describe('ProjectsService', () => {
     it('deleteProject -> ошибка при не найденом проекте', async () => {
       repo.findOne.mockResolvedValue(null);
       await expect(service.deleteProject('p1')).rejects.toThrow(
-        'Project not found',
+        NotFoundException,
       );
       expect(repo.delete).not.toHaveBeenCalled();
     });
@@ -94,7 +94,7 @@ describe('ProjectsService', () => {
       repo.delete.mockResolvedValue({ affected: 1 } as DeleteResult);
       const result = await service.deleteProject('p1');
       expect(repo.delete).toHaveBeenCalled();
-      expect(result).toEqual({ affected: 1 });
+      expect(result).toBeUndefined();
     });
   });
 });

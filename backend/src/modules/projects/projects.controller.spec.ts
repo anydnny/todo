@@ -65,11 +65,15 @@ describe('ProjectsController', () => {
   });
 
   it('deleteProject -> передает id в service.deleteProject', async () => {
-    service.deleteProject.mockResolvedValue({ affected: 1 });
+    service.deleteProject.mockResolvedValue(undefined);
 
-    const result = await controller.deleteProject({ id: 'p1' });
+    const result = await controller.deleteProject(
+      '550e8400-e29b-41d4-a716-446655440000',
+    );
 
-    expect(service.deleteProject).toHaveBeenCalledWith('p1');
-    expect(result).toEqual({ affected: 1 });
+    expect(service.deleteProject).toHaveBeenCalledWith(
+      '550e8400-e29b-41d4-a716-446655440000',
+    );
+    expect(result).toBeUndefined();
   });
 });

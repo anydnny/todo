@@ -17,7 +17,7 @@ export const tasksApi = {
     clientApi.get<TaskType[]>('tasks', 'Ошибка при получении задач'),
   deleteTaskById: async (taskId: string): Promise<string> => {
     await clientApi.delete<void>(
-      `tasks/${taskId}/delete`,
+      `tasks/${taskId}`,
       undefined,
       'Ошибка при удалении задачи'
     );

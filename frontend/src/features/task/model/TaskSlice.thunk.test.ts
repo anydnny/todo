@@ -50,7 +50,9 @@ const createStore = () =>
     },
   });
 
-beforeEach(() => jest.clearAllMocks());
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
 const resolvedTask: TaskType = {
   id: 't3',

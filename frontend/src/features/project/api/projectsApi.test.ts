@@ -46,8 +46,8 @@ describe('Project API', () => {
     await projectsApi.deleteProject('p2');
 
     expect(mockedClientApi.delete).toHaveBeenCalledWith(
-      'projects',
-      { id: 'p2' },
+      'projects/p2',
+      undefined,
       'Ошибка при удалении проекта'
     );
   });

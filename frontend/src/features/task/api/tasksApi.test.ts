@@ -52,7 +52,7 @@ describe('Task API', () => {
     await tasksApi.deleteTaskById('t1');
 
     expect(mockedClientApi.delete).toHaveBeenCalledWith(
-      'tasks/t1/delete',
+      'tasks/t1',
       undefined,
       'Ошибка при удалении задачи'
     );

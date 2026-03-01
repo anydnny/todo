@@ -66,18 +66,26 @@ describe('TasksController', () => {
     const toggledTask = { id: 't1', status: 'complete' };
     service.toggleStatus.mockResolvedValue(toggledTask);
 
-    const result = await controller.toggleStatus('t1');
+    const result = await controller.toggleStatus(
+      '550e8400-e29b-41d4-a716-446655440001',
+    );
 
-    expect(service.toggleStatus).toHaveBeenCalledWith('t1');
+    expect(service.toggleStatus).toHaveBeenCalledWith(
+      '550e8400-e29b-41d4-a716-446655440001',
+    );
     expect(result).toEqual(toggledTask);
   });
 
   it('remove передает id в service.deleteTask', async () => {
     service.deleteTask.mockResolvedValue(undefined);
 
-    const result = await controller.remove('t1');
+    const result = await controller.remove(
+      '550e8400-e29b-41d4-a716-446655440002',
+    );
 
-    expect(service.deleteTask).toHaveBeenCalledWith('t1');
+    expect(service.deleteTask).toHaveBeenCalledWith(
+      '550e8400-e29b-41d4-a716-446655440002',
+    );
     expect(result).toBeUndefined();
   });
 });
