@@ -12,10 +12,12 @@
   height: clamp(18px, 5vw, 24px);
   margin-right: clamp(4px, 1vw, 8px);
   border: 1px solid black;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   background-color: transparent;
   color: #111;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition:
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
 }
 
 .checkboxControlChecked {
@@ -25,6 +27,20 @@
 
 .checkboxIcon {
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.checkboxControlChecked.checkboxControl {
+  background-color: black;
+}
+.checkboxControlChecked .checkboxIcon {
+  opacity: 1;
+  color: white;
+}
+
+.checkboxLabel:hover .checkboxIcon {
+  opacity: 1;
 }
 
 input[type='checkbox']:hover + .checkboxControl {

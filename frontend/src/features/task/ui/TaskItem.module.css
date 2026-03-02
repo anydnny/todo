@@ -26,7 +26,10 @@
   line-height: 1.5;
   word-break: break-word;
 }
-
+.taskTitleChecked {
+  text-decoration: line-through;
+  color: #555;
+}
 .toolbox {
   position: relative;
   bottom: clamp(2px, 0.5vw, 6px);

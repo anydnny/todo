@@ -18,7 +18,12 @@ export const TaskItem: React.FC<TaskTypeProps> = ({ taskInfo }) => {
         checked={taskInfo.status === 'complete'}
         labelledBy={taskTitleId}
       />
-      <p id={taskTitleId}>{taskInfo.title}</p>
+      <p
+        id={taskTitleId}
+        className={taskInfo.status === 'complete' ? style.taskTitleChecked : ''}
+      >
+        {taskInfo.title}
+      </p>
       <div className={style.toolbox}>
         <ProjectsDropdown
           projectsList={projectsList}
