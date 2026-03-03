@@ -6,6 +6,10 @@ interface CreateTaskPayload {
   projectId: string;
 }
 
+interface ChangeTaskProjectPayload {
+  projectId: string;
+}
+
 export const tasksApi = {
   createTask: (payload: CreateTaskPayload): Promise<TaskType> =>
     clientApi.post<TaskType, CreateTaskPayload>(
@@ -31,4 +35,13 @@ export const tasksApi = {
     );
     return taskId;
   },
+  changeTaskProject: (
+    taskId: string,
+    payload: ChangeTaskProjectPayload
+  ): Promise<TaskType> =>
+    clientApi.patch<TaskType, ChangeTaskProjectPayload>(
+      `tasks/${taskId}/project`,
+      payload,
+      'Ошибка при смене проекта у задачи'
+    ),
 };

@@ -2,6 +2,7 @@ import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import { tasksApi } from '../api/tasksApi';
 import { configureStore } from '@reduxjs/toolkit';
 import {
+  changeTaskProject,
   createTask,
   deleteById,
   getAll,
@@ -16,6 +17,7 @@ jest.mock('../api/tasksApi', () => ({
     deleteTaskById: jest.fn(),
     toggleStatus: jest.fn(),
     getAllTasks: jest.fn(),
+    changeTaskProject: jest.fn(),
   },
 }));
 
@@ -186,6 +188,44 @@ describe('TaskSlice Thunks', () => {
       expect(result.type).toBe('tasks/toggle/rejected');
       expect(state.taskList[0].status).toBe('new');
       expect(state.error).toBe('Toggle failed');
+      expect(state.loading).toBe(false);
+    });
+  });
+
+  describe('changeTaskProject', () => {
+    it('fulfilled меняет projectId после ответа API', async () => {
+      const store = createStore();
+      const changedTask = {
+        ...preloadedInitialState.taskList[0],
+        projectId: 'p2',
+      };
+      mockedTasksApi.changeTaskProject.mockResolvedValue(changedTask);
+
+      await store.dispatch(changeTaskProject({ taskId: 't1', projectId: 'p2' }));
+      const state = store.getState().task;
+
+      expect(mockedTasksApi.changeTaskProject).toHaveBeenCalledWith('t1', {
+        projectId: 'p2',
+      });
+      expect(state.taskList[0].projectId).toBe('p2');
+      expect(state.error).toBeNull();
+      expect(state.loading).toBe(false);
+    });
+
+    it('rejected записывает ошибку', async () => {
+      const store = createStore();
+      mockedTasksApi.changeTaskProject.mockRejectedValue(
+        new Error('Change project failed')
+      );
+
+      const result = await store.dispatch(
+        changeTaskProject({ taskId: 't1', projectId: 'p2' })
+      );
+      const state = store.getState().task;
+
+      expect(result.type).toBe('tasks/changeProject/rejected');
+      expect(state.taskList[0].projectId).toBe('p1');
+      expect(state.error).toBe('Change project failed');
       expect(state.loading).toBe(false);
     });
   });

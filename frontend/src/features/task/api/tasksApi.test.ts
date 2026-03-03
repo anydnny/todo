@@ -72,8 +72,27 @@ describe('Task API', () => {
     await expect(result).resolves.toEqual(resolverTasks);
   });
   it('toggleStatus вызывает clientApi.patch', async () => {
-    mockedClientApi.patch.mockResolvedValue('t1');
+    mockedClientApi.patch.mockResolvedValue(undefined);
     const result = await tasksApi.toggleStatus('t1');
+    expect(mockedClientApi.patch).toHaveBeenCalledWith(
+      'tasks/t1/status',
+      undefined,
+      'Ошибка при изменении статуса задачи'
+    );
     expect(result).toEqual('t1');
+  });
+
+  it('changeTaskProject вызывает clientApi.patch с projectId', async () => {
+    const changedTask = { ...resolvedTask, projectId: 'p2' };
+    mockedClientApi.patch.mockResolvedValue(changedTask);
+
+    const result = await tasksApi.changeTaskProject('t1', { projectId: 'p2' });
+
+    expect(mockedClientApi.patch).toHaveBeenCalledWith(
+      'tasks/t1/project',
+      { projectId: 'p2' },
+      'Ошибка при смене проекта у задачи'
+    );
+    expect(result).toEqual(changedTask);
   });
 });

@@ -13,6 +13,7 @@ import {
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { ChangeTaskProjectDto } from './dto/change-task-project.dto';
 
 @ApiTags('Tasks')
 @Controller('tasks')
@@ -53,5 +54,17 @@ export class TasksController {
   @Delete(':id')
   async remove(@Param('id', new ParseUUIDPipe()) id: string) {
     await this.tasksService.deleteTask(id);
+  }
+  @ApiOperation({ summary: 'Change project in task' })
+  @ApiParam({ name: 'id', description: 'Task UUID', format: 'uuid' })
+  @ApiResponse({ status: 200, description: 'Task project changed' })
+  @ApiResponse({ status: 400, description: 'Validation error' })
+  @ApiResponse({ status: 404, description: 'Task or project not found' })
+  @Patch(':id/project')
+  changeProject(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() dto: ChangeTaskProjectDto,
+  ) {
+    return this.tasksService.changeProject(id, dto);
   }
 }

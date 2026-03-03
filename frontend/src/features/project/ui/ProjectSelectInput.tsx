@@ -1,6 +1,6 @@
 import type { ProjectInitialState } from '../types/projectTypes';
 import { useAppDispatch, useAppSelector } from '../../../hooks/useRedux';
-import { changeProject, toggleTaskEdit } from '../../task/model/TaskSlice';
+import { changeTaskProject, toggleTaskEdit } from '../../task/model/TaskSlice';
 import { PROJECT_IDS } from '../types/projectTypes';
 
 export const ProjectSelectInput: React.FC<ProjectInitialState> = ({
@@ -10,27 +10,22 @@ export const ProjectSelectInput: React.FC<ProjectInitialState> = ({
   const projectList = useAppSelector(store => store.project.projectList);
 
   if (!taskInfo?.id) {
-    console.log('no id');
-    return;
+    return null;
   }
   const taskId = taskInfo.id;
 
   const handleProjectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const projectId = e.target.value;
     if (projectId) {
-      dispatch(changeProject({ projectId, taskId }));
+      dispatch(changeTaskProject({ projectId, taskId }));
       dispatch(toggleTaskEdit(taskId));
     }
   };
   return (
-    <select onChange={handleProjectChange}>
+    <select onChange={handleProjectChange} value={taskInfo.projectId}>
       <option value={PROJECT_IDS.NO_PROJECT}>Без проекта</option>
       {projectList.map(item => (
-        <option
-          key={item.id}
-          value={item.id}
-          selected={taskInfo.projectId === item.id ? true : false}
-        >
+        <option key={item.id} value={item.id}>
           {item.name}
         </option>
       ))}

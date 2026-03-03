@@ -1,6 +1,6 @@
 import style from './TaskItem.module.css';
 import type { TaskTypeProps } from '../types/taskTypes';
-import { changeProject, deleteById } from '../model/TaskSlice';
+import { changeTaskProject, deleteById } from '../model/TaskSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/useRedux';
 import { DeleteButton } from '../../../shared/ui/DeleteButton';
 import { Checkbox } from './Checkbox';
@@ -30,7 +30,7 @@ export const TaskItem: React.FC<TaskTypeProps> = ({ taskInfo }) => {
           currentProjectId={taskInfo.projectId}
           onSelect={project =>
             dispatch(
-              changeProject({ taskId: taskInfo.id, projectId: project.id })
+              changeTaskProject({ taskId: taskInfo.id, projectId: project.id })
             )
           }
           buttonAriaLabel={`Выбор проекта для задачи ${taskInfo.title}`}

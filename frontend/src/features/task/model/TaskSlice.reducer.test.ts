@@ -1,6 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import type { TaskInitialState, TaskType } from '../types/taskTypes';
 import {
+  changeTaskProject,
   createTask,
   deleteById,
   getAll,
@@ -70,5 +71,19 @@ describe('Task Reducer', () => {
     const action = getAll.fulfilled(initialState.taskList, 'requestId');
     const next = reducer(initialState, action);
     expect(next.taskList).toEqual(initialState.taskList);
+  });
+
+  it('changeTaskProject обновляет задачу из ответа API', () => {
+    const changedTask = {
+      ...initialState.taskList[0],
+      projectId: 'p2',
+    };
+    const action = changeTaskProject.fulfilled(changedTask, 'requestId', {
+      taskId: 't1',
+      projectId: 'p2',
+    });
+    const next = reducer(initialState, action);
+
+    expect(next.taskList[0].projectId).toBe('p2');
   });
 });

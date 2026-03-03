@@ -16,6 +16,10 @@ interface TaskFormData {
   title: string;
   projectId: string;
 }
+interface ChangeTaskProjectData {
+  taskId: string;
+  projectId: string;
+}
 
 export const getAll = createAsyncThunk<TaskType[]>('tasks/getAll', async () => {
   const tasks = await tasksApi.getAllTasks();
@@ -43,20 +47,17 @@ export const toggleStatus = createAsyncThunk<string, string>(
     return id;
   }
 );
+export const changeTaskProject = createAsyncThunk<TaskType, ChangeTaskProjectData>(
+  'tasks/changeProject',
+  async ({ taskId, projectId }: ChangeTaskProjectData) => {
+    const task = await tasksApi.changeTaskProject(taskId, { projectId });
+    return task;
+  }
+);
 const taskSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    changeProject: (
-      state,
-      action: PayloadAction<{ taskId: string; projectId: string }>
-    ) => {
-      state.taskList = state.taskList.map(task =>
-        task.id === action.payload.taskId
-          ? { ...task, projectId: action.payload.projectId }
-          : task
-      );
-    },
     toggleTaskEdit: (state, action: PayloadAction<string>) => {
       state.taskList = state.taskList.map(task =>
         task.id === action.payload
@@ -125,9 +126,23 @@ const taskSlice = createSlice({
       .addCase(toggleStatus.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to change status';
+      })
+      .addCase(changeTaskProject.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(changeTaskProject.fulfilled, (state, action) => {
+        state.loading = false;
+        state.taskList = state.taskList.map(task =>
+          task.id === action.payload.id ? action.payload : task
+        );
+      })
+      .addCase(changeTaskProject.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to change task project';
       });
   },
 });
 
-export const { changeProject, toggleTaskEdit } = taskSlice.actions;
+export const { toggleTaskEdit } = taskSlice.actions;
 export const reducer = taskSlice.reducer;

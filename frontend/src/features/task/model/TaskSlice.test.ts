@@ -1,7 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import {
   reducer,
-  changeProject,
   createTask,
   deleteById,
   toggleStatus,
@@ -24,14 +23,6 @@ describe('Task Reducer', () => {
     error: null,
   };
 
-  it('changeProject меняет projectId', () => {
-    const next = reducer(
-      initialState,
-      changeProject({ taskId: 't1', projectId: 'p2' })
-    );
-
-    expect(next.taskList[0].projectId).toBe('p2');
-  });
   it('createTask создаёт новую задачу', () => {
     const payload = {
       id: 't2',

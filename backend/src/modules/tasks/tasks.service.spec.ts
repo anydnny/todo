@@ -4,6 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { Task } from './entities/task.entity';
 import { TasksService } from './tasks.service';
+import { Project } from '../projects/entities/project.entity';
 
 type RepoMock = {
   find: jest.Mock;
@@ -13,9 +14,14 @@ type RepoMock = {
   delete: jest.Mock;
 };
 
+type ProjectRepoMock = {
+  findOne: jest.Mock;
+};
+
 describe('TasksService', () => {
   let service: TasksService;
   let repo: RepoMock;
+  let projectRepo: ProjectRepoMock;
 
   const repoMock: RepoMock = {
     find: jest.fn(),
@@ -23,6 +29,10 @@ describe('TasksService', () => {
     create: jest.fn(),
     save: jest.fn(),
     delete: jest.fn(),
+  };
+
+  const projectRepoMock: ProjectRepoMock = {
+    findOne: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -33,11 +43,16 @@ describe('TasksService', () => {
           provide: getRepositoryToken(Task),
           useValue: repoMock,
         },
+        {
+          provide: getRepositoryToken(Project),
+          useValue: projectRepoMock,
+        },
       ],
     }).compile();
 
     service = module.get<TasksService>(TasksService);
     repo = module.get<RepoMock>(getRepositoryToken(Task));
+    projectRepo = module.get<ProjectRepoMock>(getRepositoryToken(Project));
     jest.clearAllMocks();
   });
 
@@ -129,6 +144,61 @@ describe('TasksService', () => {
         new NotFoundException('Task not found'),
       );
       expect(repo.delete).toHaveBeenCalledWith('missing');
+    });
+  });
+
+  describe('changeProject', () => {
+    it('меняет проект задачи', async () => {
+      const task = { id: 't1', projectId: 'p1' } as Task;
+      const dto = { projectId: 'p2' };
+      const project = { id: 'p2' } as Project;
+      const savedTask = { ...task, projectId: 'p2' } as Task;
+
+      repo.findOne.mockResolvedValueOnce(task);
+      projectRepo.findOne.mockResolvedValue(project);
+      repo.save.mockResolvedValue(savedTask);
+
+      const result = await service.changeProject('t1', dto);
+
+      expect(repo.findOne).toHaveBeenCalledWith({ where: { id: 't1' } });
+      expect(projectRepo.findOne).toHaveBeenCalledWith({ where: { id: 'p2' } });
+      expect(repo.save).toHaveBeenCalledWith(savedTask);
+      expect(result.projectId).toBe('p2');
+    });
+
+    it('возвращает задачу без сохранения, если projectId не изменился', async () => {
+      const task = { id: 't1', projectId: 'p1' } as Task;
+      const dto = { projectId: 'p1' };
+      repo.findOne.mockResolvedValueOnce(task);
+
+      const result = await service.changeProject('t1', dto);
+
+      expect(result).toEqual(task);
+      expect(projectRepo.findOne).not.toHaveBeenCalled();
+      expect(repo.save).not.toHaveBeenCalled();
+    });
+
+    it('бросает NotFoundException, если задача не найдена', async () => {
+      repo.findOne.mockResolvedValueOnce(null);
+
+      await expect(
+        service.changeProject('missing', { projectId: 'p2' }),
+      ).rejects.toThrow(new NotFoundException('Task not found'));
+
+      expect(projectRepo.findOne).not.toHaveBeenCalled();
+      expect(repo.save).not.toHaveBeenCalled();
+    });
+
+    it('бросает NotFoundException, если проект не найден', async () => {
+      const task = { id: 't1', projectId: 'p1' } as Task;
+      repo.findOne.mockResolvedValueOnce(task);
+      projectRepo.findOne.mockResolvedValueOnce(null);
+
+      await expect(
+        service.changeProject('t1', { projectId: 'missing-project' }),
+      ).rejects.toThrow(new NotFoundException('Project not found'));
+
+      expect(repo.save).not.toHaveBeenCalled();
     });
   });
 });

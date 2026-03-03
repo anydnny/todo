@@ -8,6 +8,7 @@ type TasksServiceMock = {
   createTask: jest.Mock;
   toggleStatus: jest.Mock;
   deleteTask: jest.Mock;
+  changeProject: jest.Mock;
 };
 
 describe('TasksController', () => {
@@ -19,6 +20,7 @@ describe('TasksController', () => {
     createTask: jest.fn(),
     toggleStatus: jest.fn(),
     deleteTask: jest.fn(),
+    changeProject: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -87,5 +89,22 @@ describe('TasksController', () => {
       '550e8400-e29b-41d4-a716-446655440002',
     );
     expect(result).toBeUndefined();
+  });
+
+  it('changeProject передает id и dto в service.changeProject', async () => {
+    const changedTask = { id: 't1', projectId: 'p2' };
+    const dto = { projectId: '550e8400-e29b-41d4-a716-446655440099' };
+    service.changeProject.mockResolvedValue(changedTask);
+
+    const result = await controller.changeProject(
+      '550e8400-e29b-41d4-a716-446655440001',
+      dto,
+    );
+
+    expect(service.changeProject).toHaveBeenCalledWith(
+      '550e8400-e29b-41d4-a716-446655440001',
+      dto,
+    );
+    expect(result).toEqual(changedTask);
   });
 });
