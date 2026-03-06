@@ -35,6 +35,7 @@ const createStoreWithProjects = () =>
             projectListType: PROJECT_TYPE.SYSTEM,
           },
         ],
+        loading: false,
       },
     },
   });
@@ -64,7 +65,6 @@ describe('ProjectSlice Thunks', () => {
     expect(mockedProjectsApi.createProject).toHaveBeenCalledWith({
       name: 'Fake Project',
     });
-    expect(state.error).toBeNull();
     expect(state.loading).toBe(false);
   });
 
@@ -76,7 +76,6 @@ describe('ProjectSlice Thunks', () => {
     expect(mockedProjectsApi.deleteProject).toHaveBeenCalledWith('p1');
     expect(state.projectList).toHaveLength(1);
     expect(state.projectList[0].id).toBe('p2');
-    expect(state.error).toBeNull();
     expect(state.loading).toBe(false);
   });
 
@@ -89,7 +88,7 @@ describe('ProjectSlice Thunks', () => {
     expect(state.projectList).toEqual(results.payload);
   });
 
-  it('getAll rejected записывает ошибку', async () => {
+  it('getAll rejected сбрасывает loading', async () => {
     const store = createStoreWithProjects();
     mockedProjectsApi.getAllProjects.mockRejectedValue(
       new Error('Failed load from api')
@@ -99,11 +98,10 @@ describe('ProjectSlice Thunks', () => {
     const state = store.getState().project;
 
     expect(result.type).toBe('projects/getAll/rejected');
-    expect(state.error).toBe('Failed load from api');
     expect(state.loading).toBe(false);
   });
 
-  it('createProject rejected записывает ошибку', async () => {
+  it('createProject rejected не меняет список и сбрасывает loading', async () => {
     const store = createEmptyStore();
     mockedProjectsApi.createProject.mockRejectedValue(new Error('Create failed'));
 
@@ -112,7 +110,6 @@ describe('ProjectSlice Thunks', () => {
 
     expect(result.type).toBe('projects/create/rejected');
     expect(state.projectList).toHaveLength(0);
-    expect(state.error).toBe('Create failed');
     expect(state.loading).toBe(false);
   });
 });

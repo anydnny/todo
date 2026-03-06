@@ -20,7 +20,6 @@ describe('Task Reducer', () => {
       },
     ],
     loading: false,
-    error: null,
   };
 
   it('createTask создаёт новую задачу', () => {

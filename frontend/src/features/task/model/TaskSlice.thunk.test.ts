@@ -42,7 +42,6 @@ const preloadedInitialState: TaskInitialState = {
     },
   ],
   loading: false,
-  error: null,
 };
 const createStore = () =>
   configureStore({
@@ -83,7 +82,6 @@ describe('TaskSlice Thunks', () => {
         title: 'Fake Task 3',
         projectId: 'p3',
       });
-      expect(state.error).toBeNull();
       expect(state.loading).toBe(false);
     });
     it('rejected', async () => {
@@ -96,7 +94,6 @@ describe('TaskSlice Thunks', () => {
       const state = store.getState().task;
 
       expect(result.type).toBe('tasks/create/rejected');
-      expect(state.error).toBe('Create failed');
       expect(state.loading).toBe(false);
     });
   });
@@ -110,7 +107,6 @@ describe('TaskSlice Thunks', () => {
       expect(mockedTasksApi.deleteTaskById).toHaveBeenCalledWith('t1');
       expect(state.taskList).toHaveLength(1);
       expect(state.taskList[0].id).toBe('t2');
-      expect(state.error).toBeNull();
       expect(state.loading).toBe(false);
     });
     it('rejected', async () => {
@@ -124,7 +120,6 @@ describe('TaskSlice Thunks', () => {
 
       expect(result.type).toBe('tasks/deleteById/rejected');
       expect(state.taskList).toHaveLength(2);
-      expect(state.error).toBe('Delete failed');
       expect(state.loading).toBe(false);
     });
   });
@@ -149,7 +144,6 @@ describe('TaskSlice Thunks', () => {
       const state = store.getState().task;
 
       expect(result.type).toBe('tasks/getAll/rejected');
-      expect(state.error).toBe('Load failed');
       expect(state.loading).toBe(false);
     });
   });
@@ -162,7 +156,6 @@ describe('TaskSlice Thunks', () => {
 
       expect(mockedTasksApi.toggleStatus).toHaveBeenCalledWith('t1');
       expect(state.taskList[0].status).toBe('complete');
-      expect(state.error).toBeNull();
       expect(state.loading).toBe(false);
     });
 
@@ -174,7 +167,6 @@ describe('TaskSlice Thunks', () => {
       const state = store.getState().task;
 
       expect(state.taskList[1].status).toBe('new');
-      expect(state.error).toBeNull();
       expect(state.loading).toBe(false);
     });
 
@@ -187,7 +179,6 @@ describe('TaskSlice Thunks', () => {
 
       expect(result.type).toBe('tasks/toggle/rejected');
       expect(state.taskList[0].status).toBe('new');
-      expect(state.error).toBe('Toggle failed');
       expect(state.loading).toBe(false);
     });
   });
@@ -208,11 +199,10 @@ describe('TaskSlice Thunks', () => {
         projectId: 'p2',
       });
       expect(state.taskList[0].projectId).toBe('p2');
-      expect(state.error).toBeNull();
       expect(state.loading).toBe(false);
     });
 
-    it('rejected записывает ошибку', async () => {
+    it('rejected не меняет задачу и сбрасывает loading', async () => {
       const store = createStore();
       mockedTasksApi.changeTaskProject.mockRejectedValue(
         new Error('Change project failed')
@@ -225,7 +215,6 @@ describe('TaskSlice Thunks', () => {
 
       expect(result.type).toBe('tasks/changeProject/rejected');
       expect(state.taskList[0].projectId).toBe('p1');
-      expect(state.error).toBe('Change project failed');
       expect(state.loading).toBe(false);
     });
   });

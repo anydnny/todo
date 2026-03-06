@@ -30,7 +30,6 @@ describe('Task Reducer', () => {
       },
     ],
     loading: false,
-    error: null,
   };
 
   const resolvedTask: TaskType = {

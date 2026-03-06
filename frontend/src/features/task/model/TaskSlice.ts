@@ -10,7 +10,6 @@ import { tasksApi } from '../api/tasksApi';
 const initialState: TaskInitialState = {
   taskList: [],
   loading: false,
-  error: null,
 };
 interface TaskFormData {
   title: string;
@@ -70,32 +69,27 @@ const taskSlice = createSlice({
     builder
       .addCase(createTask.pending, state => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(createTask.fulfilled, (state, action) => {
         state.loading = false;
 
         state.taskList.push(action.payload);
       })
-      .addCase(createTask.rejected, (state, action) => {
+      .addCase(createTask.rejected, state => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to create tasks';
       })
       .addCase(getAll.pending, state => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(getAll.fulfilled, (state, action) => {
         state.loading = false;
         state.taskList = action.payload;
       })
-      .addCase(getAll.rejected, (state, action) => {
+      .addCase(getAll.rejected, state => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to load tasks';
       })
       .addCase(deleteById.pending, state => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(deleteById.fulfilled, (state, action) => {
         state.loading = false;
@@ -103,13 +97,11 @@ const taskSlice = createSlice({
           task => task.id !== action.payload
         );
       })
-      .addCase(deleteById.rejected, (state, action) => {
+      .addCase(deleteById.rejected, state => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to delete tasks';
       })
       .addCase(toggleStatus.pending, state => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(toggleStatus.fulfilled, (state, action) => {
         state.loading = false;
@@ -123,13 +115,11 @@ const taskSlice = createSlice({
           task.id === action.payload ? changeStatus(task) : task
         );
       })
-      .addCase(toggleStatus.rejected, (state, action) => {
+      .addCase(toggleStatus.rejected, state => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to change status';
       })
       .addCase(changeTaskProject.pending, state => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(changeTaskProject.fulfilled, (state, action) => {
         state.loading = false;
@@ -137,9 +127,8 @@ const taskSlice = createSlice({
           task.id === action.payload.id ? action.payload : task
         );
       })
-      .addCase(changeTaskProject.rejected, (state, action) => {
+      .addCase(changeTaskProject.rejected, state => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to change task project';
       });
   },
 });

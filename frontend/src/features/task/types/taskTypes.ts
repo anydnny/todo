@@ -14,7 +14,6 @@ export type TaskTypeProps = {
 export type TaskInitialState = {
   taskList: TaskType[];
   loading?: boolean;
-  error?: string | null;
 };
 export type TaskContextType = {
   taskList: TaskType[];

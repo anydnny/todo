@@ -1,5 +1,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { taskProjectSelect, UiInitialState } from '../types/uiTypes';
+import type {
+  PopupItem,
+  taskProjectSelect,
+  UiInitialState,
+} from '../types/uiTypes';
 
 const initialState: UiInitialState = {
   currentProjectId: '',
@@ -7,6 +11,7 @@ const initialState: UiInitialState = {
     id: '',
     title: '',
   },
+  popups: [],
 };
 
 const uiSlice = createSlice({
@@ -25,8 +30,15 @@ const uiSlice = createSlice({
         state.createTaskProjectSelect.title = action.payload.title;
       }
     },
+    pushPopup: (state, action: PayloadAction<PopupItem>) => {
+      state.popups.push(action.payload);
+    },
+    removePopup: (state, action: PayloadAction<string>) => {
+      state.popups = state.popups.filter(popup => popup.id !== action.payload);
+    },
   },
 });
 
-export const { setUiProperty, setUiTaskProjectSelect } = uiSlice.actions;
+export const { setUiProperty, setUiTaskProjectSelect, pushPopup, removePopup } =
+  uiSlice.actions;
 export const reducer = uiSlice.reducer;

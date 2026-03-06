@@ -11,7 +11,6 @@ export type ProjectInitialState = {
   projectList: Project[];
   taskInfo?: TaskType;
   loading?: boolean;
-  error?: string | null;
 };
 
 export type ProjectCreate = {

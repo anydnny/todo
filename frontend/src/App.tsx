@@ -15,7 +15,14 @@ import {
   type Project,
 } from './features/project/types/projectTypes';
 import { TasksMain } from './widgets/tasks/TasksMain';
-import { Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import {
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
+import { PopupHost } from './features/ui/ui/PopupHost';
 
 const getDefaultProject = (projects: Project[]) =>
   projects.find(project => project.name.trim().toLowerCase() === 'inbox') ??
@@ -67,6 +74,7 @@ const ProjectWorkspace = () => {
       <LayoutMain>
         <TasksMain />
       </LayoutMain>
+      <PopupHost />
     </Layout>
   );
 };

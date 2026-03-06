@@ -14,7 +14,6 @@ import { projectsApi } from '../api/projectsApi';
 const initialState: ProjectInitialState = {
   projectList: [],
   loading: false,
-  error: null,
 };
 
 export const getAll = createAsyncThunk<Project[]>(
@@ -64,31 +63,26 @@ const projectSlice = createSlice({
     builder
       .addCase(getAll.pending, state => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(getAll.fulfilled, (state, action) => {
         state.loading = false;
         state.projectList = action.payload;
       })
-      .addCase(getAll.rejected, (state, action) => {
+      .addCase(getAll.rejected, state => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to load projects';
       })
       .addCase(createProject.pending, state => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(createProject.fulfilled, (state, action) => {
         state.loading = false;
         state.projectList.push(action.payload);
       })
-      .addCase(createProject.rejected, (state, action) => {
+      .addCase(createProject.rejected, state => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to create projects';
       })
       .addCase(deleteProject.pending, state => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(deleteProject.fulfilled, (state, action) => {
         state.loading = false;
@@ -96,9 +90,8 @@ const projectSlice = createSlice({
           project => project.id !== action.payload
         );
       })
-      .addCase(deleteProject.rejected, (state, action) => {
+      .addCase(deleteProject.rejected, state => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to delete project';
       });
   },
 });
