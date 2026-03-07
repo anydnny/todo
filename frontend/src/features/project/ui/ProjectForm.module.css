@@ -1,0 +1,94 @@
+.projectForm {
+  display: flex;
+  gap: clamp(4px, 2%, 12px);
+  justify-content: space-between;
+  width: 100%;
+}
+
+.projectForm__input {
+  flex: 1;
+
+  padding: clamp(6px, 1.5%, 12px);
+  border: 1px solid black;
+  border-radius: 0;
+
+  font-size: clamp(12px, 2vw, 16px);
+
+}
+
+.projectForm__createButton {
+  cursor: pointer;
+
+  flex-shrink: 0;
+
+  aspect-ratio: 1;
+  width: clamp(28px, 8vw, 36px);
+  height: clamp(28px, 8vw, 36px);
+  padding: 0;
+  border: 1px solid black;
+  border-radius: 0;
+
+  background-color: transparent;
+
+  transition: background-color 0.2s ease-in-out;
+}
+
+.projectForm__createButton:hover {
+  background-color: var(--bg-color-grey--hover, #f0f0f0);
+}
+
+.projectForm__createButton:active {
+  background-color: var(--bg-color-grey--accent, #3333331a);
+}
+
+.projectForm__createButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  background-color: transparent;
+}
+
+.projectForm__createButton:disabled:hover,
+.projectForm__createButton:disabled:active {
+  background-color: transparent;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .projectForm {
+    flex-direction: column;
+  }
+  .projectForm__createButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .projectForm {
+    gap: clamp(4px, 1.5%, 8px);
+  }
+
+  .projectForm__input {
+    padding: clamp(6px, 1.2%, 10px);
+    font-size: clamp(12px, 2.5vw, 14px);
+  }
+
+  .projectForm__createButton {
+    width: clamp(24px, 7vw, 32px);
+    height: clamp(24px, 7vw, 32px);
+  }
+}
+
+@media (max-width: 480px) {
+  .projectForm {
+    gap: clamp(3px, 1%, 6px);
+  }
+
+  .projectForm__input {
+    padding: clamp(5px, 1%, 8px);
+    font-size: clamp(11px, 3vw, 13px);
+  }
+
+  .projectForm__createButton {
+    width: clamp(22px, 6vw, 28px);
+    height: clamp(22px, 6vw, 28px);
+  }
+}

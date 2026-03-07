@@ -1,0 +1,111 @@
+.popup {
+  position: fixed;
+  inset: auto 20px 20px auto;
+  transform: translateY(10px) scale(0.98);
+
+  min-width: 300px;
+  max-width: min(460px, calc(100vw - 24px));
+  margin: 0;
+  padding: 18px 18px 16px;
+  border: 1px solid #111;
+  border-radius: 10px;
+
+  color: #111;
+
+  opacity: 0;
+}
+
+.popup:popover-open {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  animation: popup-enter 220ms ease-out;
+}
+
+.popup.popupClosing:popover-open {
+  animation: popup-exit 220ms ease-in forwards;
+}
+
+.popup-slow-closing:popover-open {
+  animation: popup-exit-opacity 2500ms ease-in forwards;
+}
+
+@keyframes popup-enter {
+  from {
+    transform: translateY(10px) scale(0.98);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes popup-exit {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: translateY(8px) scale(0.98);
+    opacity: 0;
+  }
+}
+
+@keyframes popup-exit-opacity {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.5;
+  }
+}
+.popup-error {
+  background-color: rgb(222, 108, 108);
+}
+.popup-success {
+  background-color: rgb(198, 247, 108);
+}
+.content {
+  margin: 0;
+  padding-right: 34px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.close {
+  cursor: pointer;
+
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+
+  font-size: 20px;
+  line-height: 1;
+  color: #111;
+
+  appearance: none;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+
+  transition: background-color 120ms ease;
+}
+
+.close:hover {
+  background-color: rgb(0 0 0 / 8%);
+}
+
+.close:focus,
+.close:focus-visible {
+  outline: none;
+  box-shadow: none;
+}

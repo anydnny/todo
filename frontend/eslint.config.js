@@ -10,6 +10,23 @@ import unusedImports from 'eslint-plugin-unused-imports';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import css from '@eslint/css';
 
+const legacyStructurePatterns = [
+  {
+    group: [
+      '**/components/Task/**',
+      '**/components/Projects/**',
+      '**/components/Layout/**',
+      '**/components/shared/ui/**',
+      '**/components/shared/buttons/DeleteButton',
+      '**/store/slices/**',
+      '**/utils/taskTypes',
+      '**/utils/projectTypes',
+      '**/utils/uiTypes',
+    ],
+    message: 'Use FSD-lite modules under src/features, src/widgets, or src/shared.',
+  },
+];
+
 export default defineConfig([
   globalIgnores(['dist']),
   {
@@ -50,8 +67,48 @@ export default defineConfig([
           argsIgnorePattern: '^_',
         },
       ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: legacyStructurePatterns,
+        },
+      ],
     },
     ignores: ['node_modules', 'dist'],
+  },
+  {
+    files: ['src/shared/**/*.{js,ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            ...legacyStructurePatterns,
+            {
+              group: ['**/features/**', '**/widgets/**'],
+              message: '`shared` layer must not depend on `features` or `widgets`.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/features/**/*.{js,ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            ...legacyStructurePatterns,
+            {
+              group: ['**/widgets/**'],
+              message: '`features` layer must not depend on `widgets`.',
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     files: ['**/*.css'],
