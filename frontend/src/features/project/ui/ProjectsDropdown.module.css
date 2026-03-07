@@ -15,6 +15,7 @@
   border: none;
 
   color: grey;
+
   background-color: transparent;
 
   transition: color 0.2s ease-in-out;
@@ -104,9 +105,10 @@
 
 .projectSelect__emptyState {
   padding: clamp(6px, 1.5vw, 12px) clamp(8px, 2vw, 16px);
-  color: #666;
+
   font-size: clamp(12px, 1.8vw, 14px);
   line-height: 1.5;
+  color: #666;
   white-space: nowrap;
 }
 

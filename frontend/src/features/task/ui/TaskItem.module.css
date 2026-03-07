@@ -27,8 +27,8 @@
   word-break: break-word;
 }
 .taskTitleChecked {
-  text-decoration: line-through;
   color: #555;
+  text-decoration: line-through;
 }
 .toolbox {
   position: relative;

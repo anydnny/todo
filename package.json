@@ -11,13 +11,13 @@
   },
   "lint-staged": {
     "frontend/**/*.{js,jsx,ts,tsx}": [
-      "npm --prefix frontend run lint --"
+      "npm --prefix frontend exec -- eslint --max-warnings 0 --report-unused-disable-directives"
     ],
     "frontend/**/*.css": [
-      "npm --prefix frontend run style:fix --"
+      "npm --prefix frontend exec -- stylelint --fix"
     ],
     "backend/**/*.ts": [
-      "npm --prefix backend run lint --"
+      "npm --prefix backend exec -- eslint"
     ]
   },
   "config": {

@@ -29,18 +29,17 @@
 }
 .taskForm__projectSelect {
   cursor: pointer;
-
   padding: clamp(6px, 1vw, 10px);
   border: none;
-
   font-size: clamp(12px, 1.5vw, 14px);
 }
 
 .taskForm__button {
-  display: flex;
-  align-items: center;
-  gap: clamp(5px, 1.5vw, 10px);
   cursor: pointer;
+
+  display: flex;
+  gap: clamp(5px, 1.5vw, 10px);
+  align-items: center;
 
   margin-left: auto;
   padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 16px);

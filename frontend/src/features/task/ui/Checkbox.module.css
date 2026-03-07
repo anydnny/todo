@@ -5,24 +5,28 @@
 
 .checkboxControl {
   cursor: pointer;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   width: clamp(18px, 5vw, 24px);
   height: clamp(18px, 5vw, 24px);
   margin-right: clamp(4px, 1vw, 8px);
   border: 1px solid black;
+
+  color: #111;
   /* border-radius: 50%; */
   background-color: transparent;
-  color: #111;
+
   transition:
     border-color 0.2s ease-in-out,
     box-shadow 0.2s ease-in-out;
 }
 
 .checkboxControlChecked {
-  background-color: transparent;
   border-color: #111;
+  background-color: transparent;
 }
 
 .checkboxIcon {
@@ -35,8 +39,8 @@
   background-color: black;
 }
 .checkboxControlChecked .checkboxIcon {
-  opacity: 1;
   color: white;
+  opacity: 1;
 }
 
 .checkboxLabel:hover .checkboxIcon {
